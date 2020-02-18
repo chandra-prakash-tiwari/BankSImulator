@@ -123,11 +123,13 @@ namespace Services
                     if (transaction.Mode == TransactionType.Deposit)
                     {
                         srcAccount.FundBalance = srcAccount.FundBalance - transaction.Amount;
+                        srcAccount.Transactions.Remove(transaction);
                         return true;
                     }
                     else if (transaction.Mode == TransactionType.CashWithdraw)
                     {
                         srcAccount.FundBalance = srcAccount.FundBalance + transaction.Amount;
+                        srcAccount.Transactions.Remove(transaction);
                         return true;
                     }
                     else if (transaction.Mode == TransactionType.FundTransfer)
@@ -139,6 +141,7 @@ namespace Services
                             {
                                 srcAccount.FundBalance = srcAccount.FundBalance + transaction.Amount;
                                 destAccount.FundBalance = destAccount.FundBalance - transaction.Amount;
+                                srcAccount.Transactions.Remove(transaction);
                                 return true;
                             }
                         }
@@ -149,6 +152,7 @@ namespace Services
                             {
                                 srcAccount.FundBalance = srcAccount.FundBalance + transaction.Amount;
                                 destAccount.FundBalance = destAccount.FundBalance - transaction.Amount;
+                                srcAccount.Transactions.Remove(transaction);
                                 return true;
                             }
                         }
