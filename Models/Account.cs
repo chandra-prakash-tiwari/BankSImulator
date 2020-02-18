@@ -16,7 +16,7 @@ namespace Models
         {
             Transactions = new List<Transaction>();
 
-            Holder = new AccountHolder();
+            Holder = new User();
         }
 
     }

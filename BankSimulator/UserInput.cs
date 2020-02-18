@@ -30,12 +30,8 @@ namespace BankSimulator.GetData
             Console.WriteLine("Enter Account Detail");
             account.Holder.Name = Helper.GetString("Name :");
             DateTime now = DateTime.Now;           
-            account.Id = account.Holder.Name.Substring(0, 4) + now.Day + now.Month + now.Year;
-            Console.WriteLine($"Account Number : {account.Id}");
             account.Holder.PhoneNumber = Helper.GetLong("Phone Number :");
             account.Holder.Address = Helper.GetString("Address :");
-            account.Holder.UserId = account.Holder.Name.Substring(0, 3) + bankCode;
-            Console.WriteLine($"UserName : {account.Holder.UserId}");
             account.Holder.Password = Helper.GetString("Password :"); ;
             Console.WriteLine("Customer Bank Id :" + account.Holder.BankId);
             account.Holder.UserType = UserType.Account;
@@ -55,10 +51,6 @@ namespace BankSimulator.GetData
             employee.Name = Helper.GetString("Name: ");
             employee.PhoneNumber = Helper.GetLong("Phone Number :");
             employee.Address = Helper.GetString("Address :");
-            employee.Id = employee.Name.Substring(0, 2) +now.Day+now.Month+now.Year;
-            Console.WriteLine($"Employee Id :{employee.Id}");
-            employee.UserId = employee.Name.Substring(0, 3) + bankId;
-            Console.WriteLine($"UserName :{employee.UserId}");
             employee.Password = Helper.GetString("Password :");
             employee.UserType = UserType.Employee;
             Console.WriteLine("Customer Bank Id :" + employee.BankId);

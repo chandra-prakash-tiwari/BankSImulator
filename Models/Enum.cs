@@ -3,7 +3,7 @@ namespace Models
 {
     public enum MainMenu
     {
-        NewBank = 1,
+        CreateBank = 1,
         Login,
         Exit
     };
@@ -15,7 +15,7 @@ namespace Models
         Account,
     };
 
-    public enum AdministratorOption
+    public enum AdministratorMenu
     {
         AddEmployee = 1,
         RemoveEmployee,
@@ -29,7 +29,7 @@ namespace Models
         Exit
     };
 
-    public enum EmployeeOption
+    public enum EmployeeMenu
     {
         AddAccount = 1,
         RemoveAccount,
@@ -51,7 +51,7 @@ namespace Models
         Exit
     };
 
-    public enum CustomerOption
+    public enum CustomerMenu
     {
         Deposit = 1,
         CashWithdraw,
@@ -67,5 +67,11 @@ namespace Models
         CashWithdraw,
         FundTransfer,
     };
-    
+
+    public enum TransactionStatus
+    {
+        Pending,
+        Success,
+        Failed
+    };
 }

@@ -1,4 +1,5 @@
 ﻿using Models;
+using System;
 using System.Linq;
 
 namespace Services
@@ -12,36 +13,41 @@ namespace Services
             Bank = bank;
         }
 
-        public bool CreateEmployee(Employee employee)
+        public string CreateEmployee(Employee employee)
         {
+            DateTime now = DateTime.Now;
+            employee.Id = employee.Name.Substring(0, 2) + now.Day + now.Month + now.Year;
+            employee.UserId = employee.Name.Substring(0, 3) + this.Bank;
             this.Bank.Employees.Add(employee);
-            return true;
+            return employee.Id;
         }
 
-        public bool CreateAccount(Account account)
+        public string CreateAccount(Account account)
         {
+            DateTime now = DateTime.Now;
+            account.Id = account.Holder.Name.Substring(0, 4) + now.Day + now.Month + now.Year;
+            account.Holder.UserId = account.Holder.Name.Substring(0, 3) + this.Bank;
             this.Bank.Accounts.Add(account);
-            return true;
+            return account.Id;
         }
 
-        public bool RemoveEmployee(string Id)
+        public bool RemoveEmployee(string EmployeeId)
         {
-            var record = Bank.Employees.Where(a => a.Id == Id)?.Select(a => a).ToList();
-            foreach (var employee in record)
+            var employee = Bank.Employees.SingleOrDefault(a => a.Id == EmployeeId);
+            if (employee != null)
             {
                 this.Bank.Employees.Remove(employee);
                 return true;
             }
-
             return false;
         }
 
         public bool RemoveAccount(string accountId)
         {
-            var record = Bank.Accounts.Where(a => a.Id == accountId).Select(a => a).ToList();
-            foreach (var account in record)
+            var record = Bank.Accounts.SingleOrDefault(a => a.Id == accountId);
+            if (record != null)
             {
-                this.Bank.Accounts.Remove(account);
+                this.Bank.Accounts.Remove(record);
                 return true;
             }
 
@@ -60,13 +66,12 @@ namespace Services
             return false;
         }
 
-        public bool UpdateEmployee(Employee updateEmployee, string employeeId)
+        public bool UpdateEmployee(Employee employee, string employeeId)
         {
-            var record = Bank.Employees.Where(a => a.Id == employeeId).Select(a => a).ToList();
-            foreach (var employee in record)
+            var index = Bank.Employees.FindIndex(_ => _.Id == employeeId);
+            if (index != -1)
             {
-                this.Bank.Employees.Remove(employee);
-                this.Bank.Employees.Add(updateEmployee);
+                Bank.Employees[index] = employee;
                 return true;
             }
 

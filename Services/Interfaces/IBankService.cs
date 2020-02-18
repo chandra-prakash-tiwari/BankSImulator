@@ -5,9 +5,9 @@ namespace Services
 {
     public interface IBankService
     {
-        bool CreateEmployee(Employee employee);
+        string CreateEmployee(Employee employee);
 
-        bool CreateAccount(Account account);
+        string CreateAccount(Account account);
 
         bool RemoveEmployee(string Id);
 
