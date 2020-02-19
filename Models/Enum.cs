@@ -40,7 +40,7 @@ namespace Models
         Exit
     };
 
-    public enum EmployeeTransaction
+    public enum TransactionMenu
     {
         Deposit = 1,
         CashWithdraw,

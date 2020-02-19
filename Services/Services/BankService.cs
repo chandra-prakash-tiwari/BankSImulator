@@ -17,7 +17,7 @@ namespace Services
         {
             DateTime now = DateTime.Now;
             employee.Id = employee.Name.Substring(0, 2) + now.Day + now.Month + now.Year;
-            employee.UserId = employee.Name.Substring(0, 3) + this.Bank;
+            employee.UserId = employee.Name.Substring(0, 3) + this.Bank.Id;
             this.Bank.Employees.Add(employee);
             return employee.Id;
         }
@@ -26,7 +26,7 @@ namespace Services
         {
             DateTime now = DateTime.Now;
             account.Id = account.Holder.Name.Substring(0, 4) + now.Day + now.Month + now.Year;
-            account.Holder.UserId = account.Holder.Name.Substring(0, 3) + this.Bank;
+            account.Holder.UserId = account.Holder.Name.Substring(0, 3) + this.Bank.Id;
             this.Bank.Accounts.Add(account);
             return account.Id;
         }
@@ -44,10 +44,10 @@ namespace Services
 
         public bool RemoveAccount(string accountId)
         {
-            var record = Bank.Accounts.SingleOrDefault(a => a.Id == accountId);
-            if (record != null)
+            var account = Bank.Accounts.SingleOrDefault(a => a.Id == accountId);
+            if (account != null)
             {
-                this.Bank.Accounts.Remove(record);
+                this.Bank.Accounts.Remove(account);
                 return true;
             }
 

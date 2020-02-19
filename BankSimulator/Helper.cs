@@ -1,89 +1,79 @@
-﻿using System;
+﻿using Models;
+using System;
 
 namespace BankSimulator
 {
     public class Helper
     {
-        public static int GetInt(string text)
+        public static int GetValidInteger(string text)
         {
             Console.Write(text);
-
-            bool success = Int32.TryParse(Console.ReadLine(), out int number);
-            if (!success)
+            if (!Int32.TryParse(Console.ReadLine(), out int number))
             {
-                Console.WriteLine("Please Enter Correct Value");
-                number = GetInt(text);
+                Console.WriteLine(Constrants.Invalid);
+                number = GetValidInteger(text);
             }
 
             return number;
         }
 
-        public static double GetDouble(string text)
+        public static double GetValidDouble(string text)
         {
             Console.Write(text);
-
-            bool success = double.TryParse(Console.ReadLine(), out double number);
-            if (!success)
+            if (!double.TryParse(Console.ReadLine(), out double number))
             {
-                Console.WriteLine("Please Enter Correct Value");
-                number = GetDouble(text);
+                Console.WriteLine(Constrants.Invalid);
+                number = GetValidDouble(text);
             }
 
             return number;
         }
 
-        public static float GetPercentage(string text)
+        public static float GetValidPercentage(string text)
         {
             Console.Write(text);
-
-            bool success = float.TryParse(Console.ReadLine(), out float number);
-            if (!(success && number < 100))
+            if (!(float.TryParse(Console.ReadLine(), out float number) && number < 100))
             {
 
-                Console.WriteLine("Please Enter Correct Value");
-                number = GetPercentage(text);
+                Console.WriteLine(Constrants.Invalid);
+                number = GetValidPercentage(text);
             }
 
             return number;
         }
 
-        public static float GetFloat(string text)
+        public static float GetValidFloat(string text)
         {
             Console.Write(text);
-
-            bool success = float.TryParse(Console.ReadLine(), out float number);
-            if (!success)
+            if (!float.TryParse(Console.ReadLine(), out float number))
             {
-                Console.WriteLine("Please Enter Correct Value");
-                number = GetFloat(text);
+                Console.WriteLine(Constrants.Invalid);
+                number = GetValidFloat(text);
             }
 
             return number;
         }
 
-        public static long GetLong(string text)
+        public static long GetValidLong(string text)
         {
             Console.Write(text);
-
-            bool success = long.TryParse(Console.ReadLine(), out long number);
-            if (!success)
+            if (!long.TryParse(Console.ReadLine(), out long number))
             {
-                Console.WriteLine("Please Enter Correct Value");
-                number = GetLong(text);
+                Console.WriteLine(Constrants.Invalid);
+                number = GetValidLong(text);
             }
 
             return number;
         }
 
-        public static string GetString(string text)
+        public static string GetValidString(string text)
         {
             Console.Write(text);
-
             string str = Console.ReadLine();
             if (str == "")
             {
-                Console.WriteLine("Please Enter Correct Value");
-                str = GetString(text);
+                Console.WriteLine(Constrants.Invalid);
+                str = GetValidString(text);
             }
 
             return str;
