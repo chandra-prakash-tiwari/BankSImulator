@@ -20,6 +20,8 @@ namespace Models
 
         public static readonly string MainMenu = " 1. Create a New Bank\n 2. Login\n 3. Exit";
 
+        public static readonly string BankId = "Bank Id : ";
+
         public static readonly string AccountNumber = "Account Number : ";
 
         public static readonly string Name = "Name : ";

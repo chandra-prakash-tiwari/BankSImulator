@@ -5,75 +5,69 @@ namespace BankSimulator
 {
     public class Helper
     {
-        public static int GetValidInteger(string text)
+        public static int GetValidInteger()
         {
-            Console.Write(text);
             if (!Int32.TryParse(Console.ReadLine(), out int number))
             {
                 Console.WriteLine(Constrants.Invalid);
-                number = GetValidInteger(text);
+                number = GetValidInteger();
             }
 
             return number;
         }
 
-        public static double GetValidDouble(string text)
+        public static double GetValidDouble()
         {
-            Console.Write(text);
             if (!double.TryParse(Console.ReadLine(), out double number))
             {
                 Console.WriteLine(Constrants.Invalid);
-                number = GetValidDouble(text);
+                number = GetValidDouble();
             }
 
             return number;
         }
 
-        public static float GetValidPercentage(string text)
+        public static float GetValidPercentage()
         {
-            Console.Write(text);
             if (!(float.TryParse(Console.ReadLine(), out float number) && number < 100))
             {
 
                 Console.WriteLine(Constrants.Invalid);
-                number = GetValidPercentage(text);
+                number = GetValidPercentage();
             }
 
             return number;
         }
 
-        public static float GetValidFloat(string text)
+        public static float GetValidFloat()
         {
-            Console.Write(text);
             if (!float.TryParse(Console.ReadLine(), out float number))
             {
                 Console.WriteLine(Constrants.Invalid);
-                number = GetValidFloat(text);
+                number = GetValidFloat();
             }
 
             return number;
         }
 
-        public static long GetValidLong(string text)
+        public static long GetValidLong()
         {
-            Console.Write(text);
             if (!long.TryParse(Console.ReadLine(), out long number))
             {
                 Console.WriteLine(Constrants.Invalid);
-                number = GetValidLong(text);
+                number = GetValidLong();
             }
 
             return number;
         }
 
-        public static string GetValidString(string text)
+        public static string GetValidString()
         {
-            Console.Write(text);
             string str = Console.ReadLine();
             if (str == "")
             {
                 Console.WriteLine(Constrants.Invalid);
-                str = GetValidString(text);
+                str = GetValidString();
             }
 
             return str;

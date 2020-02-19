@@ -1,4 +1,5 @@
 ﻿using Models;
+using Services.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +9,10 @@ namespace Services
     public class AccountService : IAccountService
     {
         public Bank CurrentBank { get; set; }
-        public List<Bank> Banks { get; }
 
-        public AccountService(Bank bank, List<Bank> Banks)
+        public AccountService(Bank bank)
         {
             this.CurrentBank = bank;
-            this.Banks = Banks;
         }
 
         public double? Deposit(string accountNumber, double amount)
@@ -73,7 +72,7 @@ namespace Services
             }
             else
             {
-                var destination = this.Banks.Where(a => a.Id == descBank).SelectMany(a => a.Accounts).FirstOrDefault(a => a.Id == descAccount);
+                var destination = MasterBankService.Banks.Where(a => a.Id == descBank).SelectMany(a => a.Accounts).FirstOrDefault(a => a.Id == descAccount);
                 this.FundTransfer(source, destination, this.CurrentBank.RtgsOther, amount, srcBank, descBank);
             }
 
@@ -147,7 +146,7 @@ namespace Services
                         }
                         else
                         {
-                            Account destAccount = this.Banks.Where(a => a.Id == transaction.DestBankId).SelectMany(a => a.Accounts).FirstOrDefault(a => a.Id == transaction.AccountNumber);
+                            Account destAccount = MasterBankService.Banks.Where(a => a.Id == transaction.DestBankId).SelectMany(a => a.Accounts).FirstOrDefault(a => a.Id == transaction.AccountNumber);
                             if (destAccount != null)
                             {
                                 srcAccount.FundBalance = srcAccount.FundBalance + transaction.Amount;
