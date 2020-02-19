@@ -15,7 +15,7 @@ namespace Services
             this.CurrentBank = bank;
         }
 
-        public double? Deposit(string accountNumber, double amount)
+        public bool Deposit(string accountNumber, double amount)
         {
             var account = CurrentBank.Accounts.FirstOrDefault(c => c.Id == accountNumber);
             if (account != null)
@@ -25,13 +25,13 @@ namespace Services
                 Transaction transaction = this.GetTransaction(TransactionType.Deposit, account.Id, amount);
                 account.Transactions.Add(transaction);
 
-                return account.FundBalance;
+                return true;
             }
 
-            return null;
+            return false;
         }
 
-        public double? CashWithdraw(string accountNumber, double amount)
+        public bool CashWithdraw(string accountNumber, double amount)
         {
             DateTime now = DateTime.Now;
             var account = this.CurrentBank.Accounts.FirstOrDefault(c => c.Id == accountNumber);
@@ -46,10 +46,16 @@ namespace Services
                 };
                 transaction = this.GetTransaction(TransactionType.CashWithdraw, account.Id, amount);
                 account.Transactions.Add(transaction);
-                return account.FundBalance;
+                return true;
             }
 
-            return null;
+            return false;
+        }
+
+        public double GetBalance(string AccountId)
+        {
+            Account account = CurrentBank.Accounts.FirstOrDefault(a => a.Id == AccountId);
+            return account.FundBalance;
         }
 
         public bool FundTransaction(string srcAccount, string descAccount, string srcBank, string descBank, double amount)
@@ -103,3 +109,4 @@ namespace Services
         }
     }
 }
+

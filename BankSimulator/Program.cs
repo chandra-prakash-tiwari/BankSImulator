@@ -19,7 +19,7 @@ namespace BankSimulator
         public static void CustomerMenu(AccountService accountService, User user)
         {
             Console.Clear();
-            Account account = accountService.CurrentBank.Accounts.SingleOrDefault(a => a.Holder.UserId == user.UserId);
+            Account account = accountService.CurrentBank.Accounts.FirstOrDefault(a => a.Holder.UserId == user.UserId);
             Console.Write(Constrants.UserMenu);
             CustomerMenu option = (CustomerMenu)Helper.GetValidInteger();
             Console.Clear();
@@ -28,10 +28,10 @@ namespace BankSimulator
                 case Models.CustomerMenu.Deposit:
                     Console.Write(Constrants.TransactionAmount);
                     double amount = double.Parse(Console.ReadLine());
-                    double? fundBalance = accountService.Deposit(account.Id, amount);
-                    if (fundBalance != null)
+
+                    if (!accountService.Deposit(account.Id, amount))
                     {
-                        Console.WriteLine($"Your new balance is : {fundBalance}");
+                        Console.WriteLine(Constrants.AvailbleBalance + accountService.GetBalance(account.Id));
                         Console.ReadKey();
                     }
                     else
@@ -47,10 +47,9 @@ namespace BankSimulator
                 case Models.CustomerMenu.CashWithdraw:
                     Console.Write(Constrants.TransactionAmount);
                     amount = Helper.GetValidDouble();
-                    fundBalance = accountService.CashWithdraw(account.Id, amount);
-                    if (fundBalance != null)
+                    if (!accountService.CashWithdraw(account.Id, amount))
                     {
-                        Console.WriteLine($"Your new balance is : {fundBalance}");
+                        Console.WriteLine(Constrants.AvailbleBalance + accountService.GetBalance(account.Id));
                         Console.ReadKey();
                     }
                     else
@@ -126,7 +125,7 @@ namespace BankSimulator
                     string employeeId = Helper.GetValidString();
                     int index = bankService.SearchEmployee(employeeId);
                     if ( index == -1)
-                        Console.WriteLine("Invalid employee Id");
+                        Console.WriteLine(Constrants.UserNotFound);
                     else
                     {
                         bankService.RemoveEmployee(index);
@@ -145,7 +144,7 @@ namespace BankSimulator
                     index = bankService.SearchEmployee(employeeId);
                     if (index == -1)
                     {
-                        Console.WriteLine("Invalid employee Id");
+                        Console.WriteLine(Constrants.UserNotFound);
                     }
                     else
                     {
@@ -175,7 +174,7 @@ namespace BankSimulator
 
                     index = bankService.SearchAccount(AccountId);
                     if (index == -1)
-                        Console.WriteLine("Invalid Account Id");
+                        Console.WriteLine(Constrants.UserNotFound);
                     else
                     {
                         bankService.RemoveAccount(index);
@@ -192,7 +191,7 @@ namespace BankSimulator
                     AccountId = Helper.GetValidString();
                     index = bankService.SearchAccount(AccountId);
                     if (index == -1)
-                        Console.WriteLine("Invalid Account Id");
+                        Console.WriteLine(Constrants.UserNotFound);
                     else
                     {
                         bankService.UpdateAccount(UserInput.GetAccountDetails(), AccountId);
@@ -254,7 +253,7 @@ namespace BankSimulator
                     string accountNumber = Helper.GetValidString();
                     int index = bankService.SearchAccount(accountNumber);
                     if (index == -1)
-                        Console.WriteLine("Invalid Account Id");
+                        Console.WriteLine(Constrants.UserNotFound);
                     else
                     {
                         Console.Write(Constrants.TransactionAmount);
@@ -264,10 +263,9 @@ namespace BankSimulator
                         double currencyValue = Helper.GetValidDouble();
 
                         payout = currencyValue * payout;
-                        double? AvailableBalance = accountService.Deposit(accountNumber, payout);
 
-                        if (AvailableBalance != null)
-                            Console.WriteLine($"Your new Balance is : {AvailableBalance}");
+                        if (!accountService.Deposit(accountNumber, payout))
+                            Console.WriteLine($"Your new Balance is : {accountService.GetBalance(accountNumber)}");
 
                         else
                             Console.WriteLine("Deposit operation is not performed");
@@ -282,15 +280,14 @@ namespace BankSimulator
 
                     index = bankService.SearchAccount(accountNumber);
                     if (index == -1)
-                        Console.WriteLine("Invalid Account Id");
+                        Console.WriteLine(Constrants.UserNotFound);
                     else
                     {
                         Console.Write(Constrants.TransactionAmount);
                         double payout = Helper.GetValidDouble();
 
-                        double? AvailableBalance = accountService.CashWithdraw(accountNumber, payout);
-                        if (AvailableBalance != null)
-                            Console.WriteLine($"Your new Balance is : {AvailableBalance}");
+                        if (accountService.CashWithdraw(accountNumber, payout))
+                            Console.WriteLine($"Your new Balance is : {accountService.GetBalance(accountNumber)}");
 
                         else
                             Console.WriteLine("CashWithdraw operation is not performed");
@@ -381,7 +378,7 @@ namespace BankSimulator
 
                     int index = bankService.SearchAccount(AccountId);
                     if (index == -1)
-                        Console.WriteLine("Invalid Account Id");
+                        Console.WriteLine(Constrants.UserNotFound);
                     else
                     {
                         bankService.RemoveAccount(index);
@@ -399,7 +396,7 @@ namespace BankSimulator
 
                     index = bankService.SearchAccount(AccountId);
                     if (index == -1)
-                        Console.WriteLine("Invalid Account Id");
+                        Console.WriteLine(Constrants.UserNotFound);
                     else
                     {
                         bankService.UpdateAccount(UserInput.GetAccountDetails(), AccountId);
@@ -444,11 +441,9 @@ namespace BankSimulator
         }
     }
 
-    public class 
-
     public class BankSimulator
     {
-        public BankService BankService { get; set; }
+        //public BankService BankService { get; set; }
 
         public User CurrentUser { get; set; }
 
@@ -506,7 +501,7 @@ namespace BankSimulator
         public User Login(Login login)
         {
             string bankId = login.UserName.Substring(3);
-            Bank bank = MasterBankService.Banks.SingleOrDefault(b => b.Id == bankId);
+            Bank bank = MasterBankService.Banks.FirstOrDefault(b => b.Id == bankId);
 
             if (bank != null)
             {
@@ -543,16 +538,16 @@ namespace BankSimulator
             {
                 Bank bank = MasterBankService.Banks.FirstOrDefault(c => c.Id == CurrentUser.UserId.Substring(3));
                 AccountService accountService = new AccountService(bank);
-                this.BankService = new BankService(bank);
+                var bankService = new BankService(bank);
 
                 switch (this.CurrentUser.UserType)
                 {
                     case UserType.Admin:
-                        Program.AdministratorMenu(this.BankService, accountService);
+                        Program.AdministratorMenu(bankService, accountService);
                         break;
 
                     case UserType.Employee:
-                        Program.EmployeeMenu(this.BankService, accountService);
+                        Program.EmployeeMenu(bankService, accountService);
                         break;
 
                     case UserType.Account:
@@ -568,7 +563,7 @@ namespace BankSimulator
             }
             else
             {
-                Console.WriteLine("Invalid User");
+                Console.WriteLine(Constrants.UserNotFound);
                 this.Initialize();
             }
             this.Initialize();

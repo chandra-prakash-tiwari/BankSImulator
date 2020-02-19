@@ -29,7 +29,7 @@ namespace Services.Services
             Transaction transaction = this.CurrentBank.Accounts.SelectMany(a => a.Transactions).Single(a => a.Id == id);
             if (transaction != null)
             {
-                Account srcAccount = this.CurrentBank.Accounts.SingleOrDefault(a => a.Id == transaction.AccountNumber);
+                Account srcAccount = this.CurrentBank.Accounts.FirstOrDefault(a => a.Id == transaction.AccountNumber);
                 if (srcAccount != null)
                 {
                     if (transaction.Mode == TransactionType.Deposit)
@@ -48,7 +48,7 @@ namespace Services.Services
                     {
                         if (transaction.SrcBankId == transaction.DestBankId)
                         {
-                            Account destAccount = this.CurrentBank.Accounts.SingleOrDefault(a => a.Id == transaction.AccountNumber);
+                            Account destAccount = this.CurrentBank.Accounts.FirstOrDefault(a => a.Id == transaction.AccountNumber);
                             if (destAccount != null)
                             {
                                 srcAccount.FundBalance = srcAccount.FundBalance + transaction.Amount;

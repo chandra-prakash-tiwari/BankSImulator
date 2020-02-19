@@ -15,8 +15,7 @@ namespace Services.Services
 
         public static Bank CreateBank(Bank bank)
         {
-            DateTime now = DateTime.Now;
-            bank.Id = bank.Name.Substring(0, 3) + now.Day + now.Month + now.Year;
+            bank.Id = bank.Name.Substring(0, 3) + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year;
             bank.Admin.UserId = bank.Admin.Name.Substring(0, 3) + bank.Id;
             Banks.Add(bank);
             return bank;

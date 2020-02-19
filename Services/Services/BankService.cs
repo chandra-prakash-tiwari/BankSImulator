@@ -20,6 +20,7 @@ namespace Services
             {
                 return index;
             }
+
             return -1;
         }
 
@@ -30,6 +31,7 @@ namespace Services
             {
                 return index;
             }
+
             return -1;
         }
 
@@ -66,7 +68,6 @@ namespace Services
         public bool UpdateAccount(Account account, string accountId)
         {
             var oldAccount = this.Bank.Accounts.FirstOrDefault(a => a.Id == accountId);
-
             if (oldAccount != null)
             {
                 account.Id = oldAccount.Id;
