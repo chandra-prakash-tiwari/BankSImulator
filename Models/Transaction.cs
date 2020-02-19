@@ -16,9 +16,9 @@ namespace Models
 
         public string AccountNumber { get; set; }
 
-        public string DescAccountNumber { get; set; }
-
         public string SrcBankId { get; set; }
+
+        public string DescAccountNumber { get; set; }
 
         public string DestBankId { get; set; }
     }

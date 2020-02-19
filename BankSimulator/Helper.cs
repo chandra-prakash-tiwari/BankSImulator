@@ -31,7 +31,6 @@ namespace BankSimulator
         {
             if (!(float.TryParse(Console.ReadLine(), out float number) && number < 100))
             {
-
                 Console.WriteLine(Constrants.Invalid);
                 number = GetValidPercentage();
             }

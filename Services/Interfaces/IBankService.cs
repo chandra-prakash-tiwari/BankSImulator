@@ -9,9 +9,9 @@ namespace Services
 
         Account CreateAccount(Account account);
 
-        bool RemoveEmployee(string Id);
+        bool RemoveEmployee(int index);
 
-        bool RemoveAccount(string AccountId);
+        bool RemoveAccount(int index);
 
         bool UpdateAccount(Account updateAccount, string AccountId);
 

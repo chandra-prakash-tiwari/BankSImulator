@@ -10,7 +10,7 @@ namespace Models
 
     public enum UserType
     {
-        Admin = 0,
+        Admin,
         Employee,
         Account,
     };
@@ -73,5 +73,13 @@ namespace Models
         Pending,
         Success,
         Failed
+    };
+
+    public enum UpdateField
+    {
+        Name=1,
+        Address,
+        PhoneNumber,
+        Password
     };
 }

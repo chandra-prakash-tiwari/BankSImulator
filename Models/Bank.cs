@@ -12,19 +12,19 @@ namespace Models
 
         public string Email { get; set; }
 
-        public float RtgsSame { get; set; }
+        public float RTGSSame { get; set; }
 
-        public float RtgsOther { get; set; }
+        public float RTGSOther { get; set; }
 
-        public float ItgsSame { get; set; }
+        public float ITGSSame { get; set; }
 
-        public float ItgsOther { get; set; }
+        public float ITGSOther { get; set; }
 
         public long PhoneNumber { get; set; }
 
         public string Currency { get; set; }
 
-        public Admin Admin { get; set; }
+        public User Admin { get; set; }
 
         public List<Employee> Employees { get; set; }
 
@@ -32,7 +32,7 @@ namespace Models
 
         public Bank()
         {
-            Admin = new Admin();
+            Admin = new User();
             Employees = new List<Employee>();
             Accounts = new List<Account>();
         }

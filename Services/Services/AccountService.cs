@@ -39,22 +39,13 @@ namespace Services
             {
                 account.FundBalance = account.FundBalance - amount;
 
-                Transaction transaction = new Transaction();
-                transaction.SrcBankId = this.CurrentBank.Id;
-                transaction.AccountNumber = accountNumber;
+                Transaction transaction = new Transaction
+                {
+                    SrcBankId = this.CurrentBank.Id,
+                    AccountNumber = accountNumber
+                };
                 transaction = this.GetTransaction(TransactionType.CashWithdraw, account.Id, amount);
                 account.Transactions.Add(transaction);
-                return account.FundBalance;
-            }
-
-            return null;
-        }
-
-        public double? ViewBalence(string accountNumber)
-        {
-            var account = this.CurrentBank.Accounts.FirstOrDefault(c => c.Id == accountNumber);
-            if (account != null)
-            {
                 return account.FundBalance;
             }
 
@@ -68,12 +59,12 @@ namespace Services
             if (srcBank == descBank)
             {
                 var destination = this.CurrentBank.Accounts.FirstOrDefault(desc => desc.Id == descAccount);
-                this.FundTransfer(source, destination, this.CurrentBank.RtgsSame, amount, srcBank, descBank);
+                this.FundTransfer(source, destination, this.CurrentBank.RTGSSame, amount, srcBank, descBank);
             }
             else
             {
                 var destination = MasterBankService.Banks.Where(a => a.Id == descBank).SelectMany(a => a.Accounts).FirstOrDefault(a => a.Id == descAccount);
-                this.FundTransfer(source, destination, this.CurrentBank.RtgsOther, amount, srcBank, descBank);
+                this.FundTransfer(source, destination, this.CurrentBank.RTGSOther, amount, srcBank, descBank);
             }
 
             return false;
@@ -109,57 +100,6 @@ namespace Services
                 Mode = type,
                 AccountNumber = accountNumber
             };
-        }
-
-        public bool RevertTransaction(string id)
-        {
-            Transaction transaction = this.CurrentBank.Accounts.SelectMany(a => a.Transactions).Single(a => a.Id == id);
-            if (transaction != null)
-            {
-                Account srcAccount = this.CurrentBank.Accounts.SingleOrDefault(a => a.Id == transaction.AccountNumber);
-                if (srcAccount != null)
-                {
-                    if (transaction.Mode == TransactionType.Deposit)
-                    {
-                        srcAccount.FundBalance = srcAccount.FundBalance - transaction.Amount;
-                        srcAccount.Transactions.Remove(transaction);
-                        return true;
-                    }
-                    else if (transaction.Mode == TransactionType.CashWithdraw)
-                    {
-                        srcAccount.FundBalance = srcAccount.FundBalance + transaction.Amount;
-                        srcAccount.Transactions.Remove(transaction);
-                        return true;
-                    }
-                    else if (transaction.Mode == TransactionType.FundTransfer)
-                    {
-                        if (transaction.SrcBankId == transaction.DestBankId)
-                        {
-                            Account destAccount = this.CurrentBank.Accounts.SingleOrDefault(a => a.Id == transaction.AccountNumber);
-                            if (destAccount != null)
-                            {
-                                srcAccount.FundBalance = srcAccount.FundBalance + transaction.Amount;
-                                destAccount.FundBalance = destAccount.FundBalance - transaction.Amount;
-                                srcAccount.Transactions.Remove(transaction);
-                                return true;
-                            }
-                        }
-                        else
-                        {
-                            Account destAccount = MasterBankService.Banks.Where(a => a.Id == transaction.DestBankId).SelectMany(a => a.Accounts).FirstOrDefault(a => a.Id == transaction.AccountNumber);
-                            if (destAccount != null)
-                            {
-                                srcAccount.FundBalance = srcAccount.FundBalance + transaction.Amount;
-                                destAccount.FundBalance = destAccount.FundBalance - transaction.Amount;
-                                srcAccount.Transactions.Remove(transaction);
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }
-
-            return false;
         }
     }
 }

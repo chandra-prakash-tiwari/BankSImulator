@@ -35,5 +35,7 @@ namespace Models
         public static readonly string Password = "Password : ";
 
         public static readonly string TransactionAmount = "Amount : ";
+
+        public static readonly string UpdateField = "1. Name\n2. Address\n3. PhoneNumber\n4. Password";
     }
 }

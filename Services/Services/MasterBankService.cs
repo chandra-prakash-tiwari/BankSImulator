@@ -1,9 +1,6 @@
 ﻿using Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
 
 namespace Services.Services
 {
@@ -15,6 +12,7 @@ namespace Services.Services
         {
             Banks = new List<Bank>();
         }
+
         public static Bank CreateBank(Bank bank)
         {
             DateTime now = DateTime.Now;

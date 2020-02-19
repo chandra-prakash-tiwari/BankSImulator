@@ -10,7 +10,27 @@ namespace Services
 
         public BankService(Bank bank)
         {
-            Bank = bank;
+            this.Bank = bank;
+        }
+
+        public int SearchEmployee(string id)
+        {
+            var index = this.Bank.Employees.FindIndex(i => i.Id == id);
+            if (index != -1)
+            {
+                return index;
+            }
+            return -1;
+        }
+
+        public int SearchAccount(string id)
+        {
+            var index = this.Bank.Accounts.FindIndex(i => i.Id == id);
+            if (index != -1)
+            {
+                return index;
+            }
+            return -1;
         }
 
         public Employee CreateEmployee(Employee employee)
@@ -31,35 +51,27 @@ namespace Services
             return account;
         }
 
-        public bool RemoveEmployee(string EmployeeId)
+        public bool RemoveEmployee(int index)
         {
-            var employee = Bank.Employees.SingleOrDefault(a => a.Id == EmployeeId);
-            if (employee != null)
-            {
-                this.Bank.Employees.Remove(employee);
-                return true;
-            }
-            return false;
+            this.Bank.Employees.RemoveAt(index);
+            return true;
         }
 
-        public bool RemoveAccount(string accountId)
+        public bool RemoveAccount(int index)
         {
-            var account = Bank.Accounts.SingleOrDefault(a => a.Id == accountId);
-            if (account != null)
-            {
-                this.Bank.Accounts.Remove(account);
-                return true;
-            }
-
-            return false;
+            this.Bank.Accounts.RemoveAt(index);
+            return true;
         }
 
         public bool UpdateAccount(Account account, string accountId)
         {
-            var index = Bank.Accounts.FindIndex(_ => _.Id == accountId);
-            if(index != -1)
+            var oldAccount = this.Bank.Accounts.FirstOrDefault(a => a.Id == accountId);
+
+            if (oldAccount != null)
             {
-                Bank.Accounts[index] = account;
+                account.Id = oldAccount.Id;
+                account.Holder.BankId = oldAccount.Holder.BankId;
+                oldAccount = account;
                 return true;
             }
 
