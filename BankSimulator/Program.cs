@@ -19,7 +19,7 @@ namespace BankSimulator
         public static void CustomerMenu(AccountService accountService, User user)
         {
             Console.Clear();
-            Account account = accountService.CurrentBank.Accounts.FirstOrDefault(a => a.Holder.UserId == user.UserId);
+            Account account = MasterBankService.GetBank(accountService.BankId).Accounts.FirstOrDefault(a => a.Holder.UserId == user.UserId);
             Console.Write(Constrants.UserMenu);
             CustomerMenu option = (CustomerMenu)Helper.GetValidInteger();
             Console.Clear();
@@ -70,7 +70,7 @@ namespace BankSimulator
                     Console.WriteLine(Constrants.TransactionAmount);
                     amount = Helper.GetValidDouble();
 
-                    if (accountService.FundTransaction(account.Id, accountNumber, accountService.CurrentBank.Id, Id, amount))
+                    if (accountService.FundTransaction(account.Id, accountNumber, accountService.BankId, Id, amount))
                     {
                         Console.WriteLine("Fund transfer is not completed");
                         Console.ReadKey();
@@ -81,7 +81,7 @@ namespace BankSimulator
                     break;
 
                 case Models.CustomerMenu.ViewBalance:
-                    TransactionService transactionService = new TransactionService(accountService.CurrentBank);
+                    TransactionService transactionService = new TransactionService(accountService.BankId);
                     transactionService.ViewBalence(account.Id);
                     Console.ReadLine();
 
@@ -241,7 +241,7 @@ namespace BankSimulator
         {
             Console.Clear();
 
-            TransactionService transactionService = new TransactionService(accountService.CurrentBank);
+            TransactionService transactionService = new TransactionService(bankService.BankId);
             Console.Write(Constrants.TransactionMenu);
 
             TransactionMenu option = (TransactionMenu)Helper.GetValidInteger();
@@ -309,7 +309,7 @@ namespace BankSimulator
 
                     Console.Write(Constrants.TransactionAmount);
                     double amount = Helper.GetValidDouble();
-                    if (accountService.FundTransaction(SourceAccountNumber, DestinationAccountNumber, bankService.Bank.Id, DestinationIFSCCode, amount))
+                    if (accountService.FundTransaction(SourceAccountNumber, DestinationAccountNumber, bankService.BankId, DestinationIFSCCode, amount))
                         Console.WriteLine("Fund Transfer will be not perform ");
                     Console.ReadKey();
 
@@ -537,8 +537,8 @@ namespace BankSimulator
             if (this.CurrentUser != null)
             {
                 Bank bank = MasterBankService.Banks.FirstOrDefault(c => c.Id == CurrentUser.UserId.Substring(3));
-                AccountService accountService = new AccountService(bank);
-                var bankService = new BankService(bank);
+                AccountService accountService = new AccountService(bank.Id);
+                var bankService = new BankService(bank.Id);
 
                 switch (this.CurrentUser.UserType)
                 {

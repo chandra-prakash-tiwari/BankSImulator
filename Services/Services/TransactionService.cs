@@ -6,16 +6,16 @@ namespace Services.Services
 {
     public class TransactionService: ITransactionService
     {
-        public Bank CurrentBank { get; set; }
+        public string BankId { get; set; }
 
-        public TransactionService(Bank bank)
+        public TransactionService(string bankId)
         {
-            this.CurrentBank = bank;
+            this.BankId = bankId;
         }
 
         public double? ViewBalence(string accountNumber)
         {
-            var account = this.CurrentBank.Accounts.FirstOrDefault(c => c.Id == accountNumber);
+            var account = MasterBankService.GetBank(this.BankId).Accounts.FirstOrDefault(c => c.Id == accountNumber);
             if (account != null)
             {
                 return account.FundBalance;
@@ -26,10 +26,10 @@ namespace Services.Services
 
         public bool RevertTransaction(string id)
         {
-            Transaction transaction = this.CurrentBank.Accounts.SelectMany(a => a.Transactions).Single(a => a.Id == id);
+            Transaction transaction = MasterBankService.GetBank(this.BankId).Accounts.SelectMany(a => a.Transactions).Single(a => a.Id == id);
             if (transaction != null)
             {
-                Account srcAccount = this.CurrentBank.Accounts.FirstOrDefault(a => a.Id == transaction.AccountNumber);
+                Account srcAccount = MasterBankService.GetBank(this.BankId).Accounts.FirstOrDefault(a => a.Id == transaction.AccountNumber);
                 if (srcAccount != null)
                 {
                     if (transaction.Mode == TransactionType.Deposit)
@@ -48,7 +48,7 @@ namespace Services.Services
                     {
                         if (transaction.SrcBankId == transaction.DestBankId)
                         {
-                            Account destAccount = this.CurrentBank.Accounts.FirstOrDefault(a => a.Id == transaction.AccountNumber);
+                            Account destAccount = MasterBankService.GetBank(this.BankId).Accounts.FirstOrDefault(a => a.Id == transaction.AccountNumber);
                             if (destAccount != null)
                             {
                                 srcAccount.FundBalance = srcAccount.FundBalance + transaction.Amount;

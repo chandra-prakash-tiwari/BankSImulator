@@ -78,13 +78,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Models\Models.csproj">
+    <ProjectReference Include="..\Models\BankSimulator.Models.csproj">
       <Project>{41262E35-6AD8-476C-BB83-83CC11B80CA9}</Project>
-      <Name>Models</Name>
+      <Name>BankSimulator.Models</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Services\Services.csproj">
+    <ProjectReference Include="..\Services\BankSimulator.Services.csproj">
       <Project>{87C81D2B-A7B5-417B-A763-BBB8D8E36F7E}</Project>
-      <Name>Services</Name>
+      <Name>BankSimulator.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

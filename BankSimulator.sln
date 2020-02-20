@@ -5,9 +5,9 @@ VisualStudioVersion = 15.0.28307.779
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankSimulator", "BankSimulator\BankSimulator.csproj", "{2FBCD4AE-8F21-4032-9778-E7E42CE5DB3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{41262E35-6AD8-476C-BB83-83CC11B80CA9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankSimulator.Models", "Models\BankSimulator.Models.csproj", "{41262E35-6AD8-476C-BB83-83CC11B80CA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{87C81D2B-A7B5-417B-A763-BBB8D8E36F7E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankSimulator.Services", "Services\BankSimulator.Services.csproj", "{87C81D2B-A7B5-417B-A763-BBB8D8E36F7E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

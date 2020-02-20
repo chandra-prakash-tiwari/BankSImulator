@@ -1,0 +1,9 @@
+C:\Users\chandra.t\Desktop\BankSimulator-\BankSimulator\Services\bin\Debug\Services.dll
+C:\Users\chandra.t\Desktop\BankSimulator-\BankSimulator\Services\bin\Debug\Services.pdb
+C:\Users\chandra.t\Desktop\BankSimulator-\BankSimulator\Services\bin\Debug\Models.dll
+C:\Users\chandra.t\Desktop\BankSimulator-\BankSimulator\Services\bin\Debug\Models.pdb
+C:\Users\chandra.t\Desktop\BankSimulator-\BankSimulator\Services\obj\Debug\BankSimulator.Services.csprojAssemblyReference.cache
+C:\Users\chandra.t\Desktop\BankSimulator-\BankSimulator\Services\obj\Debug\BankSimulator.Services.csproj.CoreCompileInputs.cache
+C:\Users\chandra.t\Desktop\BankSimulator-\BankSimulator\Services\obj\Debug\BankSimulator.Services.csproj.CopyComplete
+C:\Users\chandra.t\Desktop\BankSimulator-\BankSimulator\Services\obj\Debug\Services.dll
+C:\Users\chandra.t\Desktop\BankSimulator-\BankSimulator\Services\obj\Debug\Services.pdb

@@ -8,16 +8,16 @@ namespace Services
 {
     public class AccountService : IAccountService
     {
-        public Bank CurrentBank { get; set; }
+        public string BankId { get; set; }
 
-        public AccountService(Bank bank)
+        public AccountService(string bankId)
         {
-            this.CurrentBank = bank;
+            this.BankId = bankId;
         }
 
         public bool Deposit(string accountNumber, double amount)
         {
-            var account = CurrentBank.Accounts.FirstOrDefault(c => c.Id == accountNumber);
+            var account = MasterBankService.GetBank(this.BankId).Accounts.FirstOrDefault(c => c.Id == accountNumber);
             if (account != null)
             {
                 account.FundBalance = account.FundBalance + amount;
@@ -34,14 +34,14 @@ namespace Services
         public bool CashWithdraw(string accountNumber, double amount)
         {
             DateTime now = DateTime.Now;
-            var account = this.CurrentBank.Accounts.FirstOrDefault(c => c.Id == accountNumber);
+            var account = MasterBankService.GetBank(this.BankId).Accounts.FirstOrDefault(c => c.Id == accountNumber);
             if (account != null && account.FundBalance - amount >= 0)
             {
                 account.FundBalance = account.FundBalance - amount;
 
                 Transaction transaction = new Transaction
                 {
-                    SrcBankId = this.CurrentBank.Id,
+                    SrcBankId = this.BankId,
                     AccountNumber = accountNumber
                 };
                 transaction = this.GetTransaction(TransactionType.CashWithdraw, account.Id, amount);
@@ -54,23 +54,23 @@ namespace Services
 
         public double GetBalance(string AccountId)
         {
-            Account account = CurrentBank.Accounts.FirstOrDefault(a => a.Id == AccountId);
+            Account account = MasterBankService.GetBank(this.BankId).Accounts.FirstOrDefault(a => a.Id == AccountId);
             return account.FundBalance;
         }
 
         public bool FundTransaction(string srcAccount, string descAccount, string srcBank, string descBank, double amount)
         {
             Transaction transaction = new Transaction();
-            var source = this.CurrentBank.Accounts.FirstOrDefault(src => src.Id == srcAccount);
+            var source = MasterBankService.GetBank(this.BankId).Accounts.FirstOrDefault(src => src.Id == srcAccount);
             if (srcBank == descBank)
             {
-                var destination = this.CurrentBank.Accounts.FirstOrDefault(desc => desc.Id == descAccount);
-                this.FundTransfer(source, destination, this.CurrentBank.RTGSSame, amount, srcBank, descBank);
+                var destination = MasterBankService.GetBank(this.BankId).Accounts.FirstOrDefault(desc => desc.Id == descAccount);
+                this.FundTransfer(source, destination, MasterBankService.GetBank(this.BankId).RTGSSame, amount, srcBank, descBank);
             }
             else
             {
                 var destination = MasterBankService.Banks.Where(a => a.Id == descBank).SelectMany(a => a.Accounts).FirstOrDefault(a => a.Id == descAccount);
-                this.FundTransfer(source, destination, this.CurrentBank.RTGSOther, amount, srcBank, descBank);
+                this.FundTransfer(source, destination, MasterBankService.GetBank(this.BankId).RTGSOther, amount, srcBank, descBank);
             }
 
             return false;
@@ -100,7 +100,7 @@ namespace Services
             DateTime now = DateTime.Now;
             return new Transaction()
             {
-                Id = "TXN" + this.CurrentBank.Id + accountNumber + now.Day + now.Month + now.Year,
+                Id = "TXN" + this.BankId + accountNumber + now.Day + now.Month + now.Year,
                 Date = now.Date,
                 Amount = amount,
                 Mode = type,
