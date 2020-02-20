@@ -63,7 +63,7 @@ namespace BankSimulator
         public static string GetValidString()
         {
             string userString = Console.ReadLine();
-            if (userString == "")
+            if (string.IsNullOrEmpty(userString))
             {
                 Console.WriteLine(Constant.Invalid);
                 userString = GetValidString();

@@ -1,21 +1,22 @@
 ﻿using BankSimulator.Models;
 using BankSimulator.Services.Interfaces;
+using System;
 using System.Linq;
 
 namespace Services.Services
 {
     public class TransactionService: ITransactionService
     {
-        public string BankId { get; set; }
+        public Bank CurrentBank { get; set; }
 
         public TransactionService(string bankId)
         {
-            this.BankId = bankId;
+            this.CurrentBank = MasterBankService.GetBank(bankId);
         }
 
         public double? ViewBalence(string accountNumber)
         {
-            var account = MasterBankService.GetBank(this.BankId).Accounts.FirstOrDefault(c => c.Id == accountNumber);
+            var account = this.CurrentBank.Accounts.FirstOrDefault(c => c.Id == accountNumber);
             if (account != null)
             {
                 return account.FundBalance;
@@ -26,53 +27,60 @@ namespace Services.Services
 
         public bool RevertTransaction(string id)
         {
-            Transaction transaction = MasterBankService.GetBank(this.BankId).Accounts.SelectMany(a => a.Transactions).Single(a => a.Id == id);
-            if (transaction != null)
+            try
             {
-                Account srcAccount = MasterBankService.GetBank(this.BankId).Accounts.FirstOrDefault(a => a.Id == transaction.AccountNumber);
-                if (srcAccount != null)
+                Transaction transaction = this.CurrentBank.Accounts.SelectMany(a => a.Transactions).Single(a => a.Id == id);
+                if (transaction != null)
                 {
-                    if (transaction.Mode == TransactionType.Deposit)
+                    Account srcAccount = this.CurrentBank.Accounts.FirstOrDefault(a => a.Id == transaction.AccountNumber);
+                    if (srcAccount != null)
                     {
-                        srcAccount.FundBalance = srcAccount.FundBalance - transaction.Amount;
-                        srcAccount.Transactions.Remove(transaction);
-                        return true;
-                    }
-                    else if (transaction.Mode == TransactionType.CashWithdraw)
-                    {
-                        srcAccount.FundBalance = srcAccount.FundBalance + transaction.Amount;
-                        srcAccount.Transactions.Remove(transaction);
-                        return true;
-                    }
-                    else if (transaction.Mode == TransactionType.FundTransfer)
-                    {
-                        if (transaction.SrcBankId == transaction.DestBankId)
+                        if (transaction.Mode == TransactionType.Deposit)
                         {
-                            Account destAccount = MasterBankService.GetBank(this.BankId).Accounts.FirstOrDefault(a => a.Id == transaction.AccountNumber);
-                            if (destAccount != null)
-                            {
-                                srcAccount.FundBalance = srcAccount.FundBalance + transaction.Amount;
-                                destAccount.FundBalance = destAccount.FundBalance - transaction.Amount;
-                                srcAccount.Transactions.Remove(transaction);
-                                return true;
-                            }
+                            srcAccount.FundBalance = srcAccount.FundBalance - transaction.Amount;
+                            srcAccount.Transactions.Remove(transaction);
+                            return true;
                         }
-                        else
+                        else if (transaction.Mode == TransactionType.CashWithdraw)
                         {
-                            Account destAccount = MasterBankService.Banks.Where(a => a.Id == transaction.DestBankId).SelectMany(a => a.Accounts).FirstOrDefault(a => a.Id == transaction.AccountNumber);
-                            if (destAccount != null)
+                            srcAccount.FundBalance = srcAccount.FundBalance + transaction.Amount;
+                            srcAccount.Transactions.Remove(transaction);
+                            return true;
+                        }
+                        else if (transaction.Mode == TransactionType.FundTransfer)
+                        {
+                            if (transaction.SrcBankId == transaction.DestBankId)
                             {
-                                srcAccount.FundBalance = srcAccount.FundBalance + transaction.Amount;
-                                destAccount.FundBalance = destAccount.FundBalance - transaction.Amount;
-                                srcAccount.Transactions.Remove(transaction);
-                                return true;
+                                Account destAccount = this.CurrentBank.Accounts.FirstOrDefault(a => a.Id == transaction.AccountNumber);
+                                if (destAccount != null)
+                                {
+                                    srcAccount.FundBalance = srcAccount.FundBalance + transaction.Amount;
+                                    destAccount.FundBalance = destAccount.FundBalance - transaction.Amount;
+                                    srcAccount.Transactions.Remove(transaction);
+                                    return true;
+                                }
+                            }
+                            else
+                            {
+                                Account destAccount = MasterBankService.Banks.Where(a => a.Id == transaction.DestBankId).SelectMany(a => a.Accounts).FirstOrDefault(a => a.Id == transaction.AccountNumber);
+                                if (destAccount != null)
+                                {
+                                    srcAccount.FundBalance = srcAccount.FundBalance + transaction.Amount;
+                                    destAccount.FundBalance = destAccount.FundBalance - transaction.Amount;
+                                    srcAccount.Transactions.Remove(transaction);
+                                    return true;
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            return false;
+                return false;
+            }
+            catch(Exception)
+            {
+                return false;
+            }
         }
     }
 }

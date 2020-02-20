@@ -9,12 +9,12 @@ namespace BankSimulator.Services.Interfaces
 
         string CreateAccount(Account account);
 
-        bool RemoveEmployee(Employee employee);
+        bool RemoveEmployee(string employeeId);
 
-        bool RemoveAccount(Account account);
+        bool RemoveAccount(string accountId);
 
-        bool UpdateAccount(Account updateAccount, Account account);
+        bool UpdateAccount(Account updateAccount, string accountId);
 
-        bool UpdateEmployee(Employee updateEmployee, Employee employee);
+        bool UpdateEmployee(Employee updateEmployee, string employeeId);
     }
 }

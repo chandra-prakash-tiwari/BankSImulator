@@ -1,0 +1,6 @@
+C:\Users\chandra.t\Desktop\BankSimulator-\BankSimulator\Models\bin\Debug\Models.dll
+C:\Users\chandra.t\Desktop\BankSimulator-\BankSimulator\Models\bin\Debug\Models.pdb
+C:\Users\chandra.t\Desktop\BankSimulator-\BankSimulator\Models\obj\Debug\BankSimulator.Models.csprojAssemblyReference.cache
+C:\Users\chandra.t\Desktop\BankSimulator-\BankSimulator\Models\obj\Debug\BankSimulator.Models.csproj.CoreCompileInputs.cache
+C:\Users\chandra.t\Desktop\BankSimulator-\BankSimulator\Models\obj\Debug\Models.dll
+C:\Users\chandra.t\Desktop\BankSimulator-\BankSimulator\Models\obj\Debug\Models.pdb
