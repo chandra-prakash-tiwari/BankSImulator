@@ -1,5 +1,5 @@
 ﻿
-namespace Models
+namespace BankSimulator.Models
 {
     public class User
     {

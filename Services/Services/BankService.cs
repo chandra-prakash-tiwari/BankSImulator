@@ -1,6 +1,7 @@
-﻿using Models;
-using System;
+﻿using System;
 using System.Linq;
+using BankSimulator.Models;
+using BankSimulator.Services.Interfaces;
 using Services.Services;
 
 namespace Services
@@ -14,82 +15,96 @@ namespace Services
             this.BankId = bankId;
         }
 
-        public int SearchEmployee(string id)
+        public bool SearchEmployee(string id)
         {
-            var index = MasterBankService.GetBank(this.BankId).Employees.FindIndex(i => i.Id == id);
-            if (index != -1)
+            Employee employee = MasterBankService.GetBank(this.BankId).Employees.FirstOrDefault(a => a.Id == id);
+            if (employee != null)
             {
-                return index;
+                return true;
             }
 
-            return -1;
+            return false;
         }
 
-        public int SearchAccount(string id)
+        public bool SearchAccount(string id)
         {
-            var index = MasterBankService.GetBank(this.BankId).Accounts.FindIndex(i => i.Id == id);
-            if (index != -1)
+            Account account = MasterBankService.GetBank(this.BankId).Accounts.FirstOrDefault(i => i.Id == id);
+            if (account != null)
             {
-                return index;
+                return true;
             }
 
-            return -1;
+            return false;
         }
 
-        public Employee CreateEmployee(Employee employee)
+        public Employee GetEmployee(string id)
+        {
+            Employee employee = MasterBankService.GetBank(this.BankId).Employees.FirstOrDefault(a => a.Id == id);
+            if (employee != null)
+            {
+                return employee;
+            }
+
+            return null;
+        }
+
+        public Account GetAccount(string id)
+        {
+            Account account = MasterBankService.GetBank(this.BankId).Accounts.FirstOrDefault(i => i.Id == id);
+            if (account != null)
+            {
+                return account;
+            }
+
+            return null;
+        }
+
+        public string CreateEmployee(Employee employee)
         {
             DateTime now = DateTime.Now;
             employee.Id = employee.Name.Substring(0, 2) + now.Day + now.Month + now.Year;
             employee.UserId = employee.Name.Substring(0, 3) + this.BankId;
             MasterBankService.GetBank(this.BankId).Employees.Add(employee);
-            return employee;
+            return employee.Id;
         }
 
-        public Account CreateAccount(Account account)
+        public string CreateAccount(Account account)
         {
             DateTime now = DateTime.Now;
             account.Id = account.Holder.Name.Substring(0, 4) + now.Day + now.Month + now.Year;
             account.Holder.UserId = account.Holder.Name.Substring(0, 3) + this.BankId;
             MasterBankService.GetBank(this.BankId).Accounts.Add(account);
-            return account;
+            return account.Id;
         }
 
-        public bool RemoveEmployee(int index)
+        public bool RemoveEmployee(Employee employee)
         {
-            MasterBankService.GetBank(this.BankId).Employees.RemoveAt(index);
+            MasterBankService.GetBank(this.BankId).Employees.Remove(employee);
             return true;
         }
 
-        public bool RemoveAccount(int index)
+        public bool RemoveAccount(Account account)
         {
-            MasterBankService.GetBank(this.BankId).Accounts.RemoveAt(index);
+            MasterBankService.GetBank(this.BankId).Accounts.Remove(account);
             return true;
         }
 
-        public bool UpdateAccount(Account account, string accountId)
+        public bool UpdateAccount(Account account, Account oldAccount)
         {
-            var oldAccount = MasterBankService.GetBank(this.BankId).Accounts.FirstOrDefault(a => a.Id == accountId);
-            if (oldAccount != null)
-            {
-                account.Id = oldAccount.Id;
-                account.Holder.BankId = oldAccount.Holder.BankId;
-                oldAccount = account;
-                return true;
-            }
+            account.Id = oldAccount.Id;
+            account.Holder.BankId = oldAccount.Holder.BankId;
+            oldAccount = account;
 
-            return false;
+            return true;
         }
 
-        public bool UpdateEmployee(Employee employee, string employeeId)
+        public bool UpdateEmployee(Employee employee, Employee oldemployee)
         {
-            var index = MasterBankService.GetBank(this.BankId).Employees.FindIndex(_ => _.Id == employeeId);
-            if (index != -1)
-            {
-                MasterBankService.GetBank(this.BankId).Employees[index] = employee;
-                return true;
-            }
+            employee.Id = oldemployee.Id;
+            employee.UserId = oldemployee.UserId;
+            oldemployee = employee;
 
-            return false;
+            return true;
         }
     }
 }

@@ -1,20 +1,20 @@
 ﻿
-using Models;
+using BankSimulator.Models;
 
-namespace Services
+namespace BankSimulator.Services.Interfaces
 {
     public interface IBankService
     {
-        Employee CreateEmployee(Employee employee);
+        string CreateEmployee(Employee employee);
 
-        Account CreateAccount(Account account);
+        string CreateAccount(Account account);
 
-        bool RemoveEmployee(int index);
+        bool RemoveEmployee(Employee employee);
 
-        bool RemoveAccount(int index);
+        bool RemoveAccount(Account account);
 
-        bool UpdateAccount(Account updateAccount, string AccountId);
+        bool UpdateAccount(Account updateAccount, Account account);
 
-        bool UpdateEmployee(Employee updateEmployee, string employeeI);
+        bool UpdateEmployee(Employee updateEmployee, Employee employee);
     }
 }

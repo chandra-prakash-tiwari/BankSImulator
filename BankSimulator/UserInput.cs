@@ -1,7 +1,7 @@
-﻿using Models;
+﻿using BankSimulator.Models;
 using System;
 
-namespace BankSimulator.GetData
+namespace BankSimulator
 {
     public class UserInput
     {
@@ -11,16 +11,16 @@ namespace BankSimulator.GetData
 
             Console.WriteLine("Enter Admin Detail");
 
-            Console.Write(Constrants.Name);
+            Console.Write(Constant.Name);
             admin.Name = Helper.GetValidString();
 
-            Console.Write(Constrants.PhoneNumber);
+            Console.Write(Constant.PhoneNumber);
             admin.PhoneNumber = Helper.GetValidLong();
 
-            Console.Write(Constrants.Address);
+            Console.Write(Constant.Address);
             admin.Address = Helper.GetValidString();
 
-            Console.Write(Constrants.Password);
+            Console.Write(Constant.Password);
             admin.Password = Helper.GetValidString();
 
             admin.UserType = UserType.Admin;
@@ -34,16 +34,16 @@ namespace BankSimulator.GetData
 
             Console.WriteLine("Enter Account Detail");
 
-            Console.Write(Constrants.Name);
+            Console.Write(Constant.Name);
             account.Holder.Name = Helper.GetValidString();
 
-            Console.Write(Constrants.PhoneNumber);
+            Console.Write(Constant.PhoneNumber);
             account.Holder.PhoneNumber = Helper.GetValidLong();
 
-            Console.Write(Constrants.Address);
+            Console.Write(Constant.Address);
             account.Holder.Address = Helper.GetValidString();
 
-            Console.Write(Constrants.Password);
+            Console.Write(Constant.Password);
             account.Holder.Password = Helper.GetValidString(); ;
 
             account.Holder.UserType = UserType.Account;
@@ -58,16 +58,16 @@ namespace BankSimulator.GetData
 
             Console.WriteLine(" Enter Employee Detail");
 
-            Console.Write(Constrants.Name);
+            Console.Write(Constant.Name);
             employee.Name = Helper.GetValidString();
 
-            Console.Write(Constrants.PhoneNumber);
+            Console.Write(Constant.PhoneNumber);
             employee.PhoneNumber = Helper.GetValidLong();
 
-            Console.Write(Constrants.Address);
+            Console.Write(Constant.Address);
             employee.Address = Helper.GetValidString();
 
-            Console.Write(Constrants.Password);
+            Console.Write(Constant.Password);
             employee.Password = Helper.GetValidString();
 
             employee.UserType = UserType.Employee;
@@ -81,10 +81,10 @@ namespace BankSimulator.GetData
 
             Console.WriteLine("Enter Bank Detail");
 
-            Console.Write(Constrants.Name);
+            Console.Write(Constant.Name);
             bank.Name = Helper.GetValidString();
 
-            Console.Write(Constrants.PhoneNumber);
+            Console.Write(Constant.PhoneNumber);
             bank.PhoneNumber = Helper.GetValidLong();
 
             Console.Write("RTGS for same Bank : ");

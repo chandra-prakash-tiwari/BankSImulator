@@ -1,7 +1,5 @@
 ﻿
-using Models;
-
-namespace Services.Interfaces
+namespace BankSimulator.Services.Interfaces
 {
     interface ITransactionService
     {

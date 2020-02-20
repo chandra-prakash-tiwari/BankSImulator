@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Models
+namespace BankSimulator.Models
 {
-    public class Constrants
+    public class Constant
     {
         public static readonly string Invalid = "Please Enter Correct Valid";
 
@@ -18,7 +18,7 @@ namespace Models
 
         public static readonly string TransactionMenu = " 1. Deposit\n 2. Cash Withdraw\n 3. Fund Transfer\n 4. View Account Balence\n 5. Revert Transaction\n 6. SignOut\n 7. Exit";
 
-        public static readonly string MainMenu = " 1. Create a New Bank\n 2. Login\n 3. Exit";
+        public static readonly string MainMenu = " 1. Create a New Bank Setup\n 2. Login\n 3. Exit";
 
         public static readonly string BankId = "Bank Id : ";
 
@@ -40,6 +40,6 @@ namespace Models
 
         public static readonly string AvailbleBalance = "You Available Balance is ";
 
-        public static readonly string UserNotFound = "Please Check Id once";
+        public static readonly string UserNotFound = "User Not Found";
     }
 }

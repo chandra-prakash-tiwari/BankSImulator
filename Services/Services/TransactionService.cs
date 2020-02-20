@@ -1,5 +1,5 @@
-﻿using Models;
-using Services.Interfaces;
+﻿using BankSimulator.Models;
+using BankSimulator.Services.Interfaces;
 using System.Linq;
 
 namespace Services.Services

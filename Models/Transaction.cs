@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Models
+namespace BankSimulator.Models
 {
     public class Transaction
     {

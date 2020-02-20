@@ -1,4 +1,4 @@
-﻿namespace Services
+﻿namespace BankSimulator.Services.Interfaces
 {
     public interface IAccountService
     {

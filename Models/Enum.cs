@@ -1,9 +1,9 @@
 ﻿
-namespace Models
+namespace BankSimulator.Models
 {
     public enum MainMenu
     {
-        CreateBank = 1,
+        BankSetup = 1,
         Login,
         Exit
     };

@@ -1,4 +1,4 @@
-﻿using Models;
+﻿using BankSimulator.Models;
 using System;
 
 namespace BankSimulator
@@ -9,7 +9,7 @@ namespace BankSimulator
         {
             if (!Int32.TryParse(Console.ReadLine(), out int number))
             {
-                Console.WriteLine(Constrants.Invalid);
+                Console.WriteLine(Constant.Invalid);
                 number = GetValidInteger();
             }
 
@@ -20,7 +20,7 @@ namespace BankSimulator
         {
             if (!double.TryParse(Console.ReadLine(), out double number))
             {
-                Console.WriteLine(Constrants.Invalid);
+                Console.WriteLine(Constant.Invalid);
                 number = GetValidDouble();
             }
 
@@ -29,20 +29,20 @@ namespace BankSimulator
 
         public static float GetValidPercentage()
         {
-            if (!(float.TryParse(Console.ReadLine(), out float number) && number < 100))
+            if (!(float.TryParse(Console.ReadLine(), out float rate) && rate < 100))
             {
-                Console.WriteLine(Constrants.Invalid);
-                number = GetValidPercentage();
+                Console.WriteLine(Constant.Invalid);
+                rate = GetValidPercentage();
             }
 
-            return number;
+            return rate;
         }
 
         public static float GetValidFloat()
         {
             if (!float.TryParse(Console.ReadLine(), out float number))
             {
-                Console.WriteLine(Constrants.Invalid);
+                Console.WriteLine(Constant.Invalid);
                 number = GetValidFloat();
             }
 
@@ -53,7 +53,7 @@ namespace BankSimulator
         {
             if (!long.TryParse(Console.ReadLine(), out long number))
             {
-                Console.WriteLine(Constrants.Invalid);
+                Console.WriteLine(Constant.Invalid);
                 number = GetValidLong();
             }
 
@@ -62,14 +62,14 @@ namespace BankSimulator
 
         public static string GetValidString()
         {
-            string str = Console.ReadLine();
-            if (str == "")
+            string userString = Console.ReadLine();
+            if (userString == "")
             {
-                Console.WriteLine(Constrants.Invalid);
-                str = GetValidString();
+                Console.WriteLine(Constant.Invalid);
+                userString = GetValidString();
             }
 
-            return str;
+            return userString;
         }
     }
 }
