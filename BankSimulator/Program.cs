@@ -19,7 +19,7 @@ namespace BankSimulator
         public static void CustomerMenu(AccountService accountService, User user)
         {
             Console.Clear();
-            Account account = MasterBankService.GetBank(accountService.CurrentBank.Id).Accounts.FirstOrDefault(a => a.Holder.UserId == user.UserId);
+            Account account = accountService.CurrentBank.Accounts.FirstOrDefault(a => a.Holder.UserId == user.UserId);
             Console.Write(Constant.UserMenu);
             CustomerMenu option = (CustomerMenu)Helper.GetValidInteger();
             Console.Clear();
@@ -463,7 +463,7 @@ namespace BankSimulator
                     BankService.CreateAdmin(UserInput.GetAdminDetails(),bankId);
                     Console.WriteLine("Admin Credentials");
                     Console.WriteLine(Constant.UserId + MasterBankService.GetBank(bankId).Admin.UserId);
-                    Console.WriteLine(Constant.Password + MasterBankService.GetBank(bankId).Admin.UserId);
+                    Console.WriteLine(Constant.Password + MasterBankService.GetBank(bankId).Admin.Password);
                     Console.ReadKey();
                     Initialize();
 

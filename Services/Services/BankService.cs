@@ -27,7 +27,8 @@ namespace Services
 
         public static bool CreateAdmin(User user,string bankId)
         {
-            MasterBankService.GetBank(bankId).Admin.UserId = user.Name.Substring(0, 3) + bankId;
+            user.BankId = bankId;
+            user.UserId = user.Name.Substring(0, 3) + bankId;
             MasterBankService.GetBank(bankId).Admin = user;
             return true;
         }

@@ -30,8 +30,15 @@ namespace Services.Services
 
         public static Bank GetBank(string id)
         {
-            Bank bank = Banks.FirstOrDefault(a => a.Id == id);
-            return bank;
+            try
+            {
+                Bank bank = Banks.FirstOrDefault(a => a.Id == id);
+                return bank;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }
