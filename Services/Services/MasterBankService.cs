@@ -30,8 +30,8 @@ namespace Services.Services
 
         public static User Authentication(Login loginRequest)
         {
-            string bankId = loginRequest.UserName.Substring(3);
-            Bank bank = Banks.FirstOrDefault(b => b.Id == bankId);
+            string bankId = loginRequest?.UserName.Substring(3);
+            Bank bank = Banks?.FirstOrDefault(b => b.Id == bankId);
             if (bank != null)
             {
                 if (string.Compare(bank.Admin.UserId, loginRequest.UserName) == 1 && string.Compare(bank.Admin.Password, loginRequest.Password) == 1)

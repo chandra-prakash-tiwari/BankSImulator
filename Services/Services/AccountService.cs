@@ -18,7 +18,7 @@ namespace BankSimulator.Services.Services
 
         public bool Deposit(string accountNumber, double amount)
         {
-            var account = this.CurrentBank.Accounts.FirstOrDefault(c => c.Id == accountNumber);
+            var account = this.CurrentBank?.Accounts?.FirstOrDefault(c => c.Id == accountNumber);
             if (account != null)
             {
                 account.FundBalance = account.FundBalance + amount;
@@ -34,7 +34,7 @@ namespace BankSimulator.Services.Services
 
         public bool CashWithdraw(string accountNumber, double amount)
         {
-            var account = this.CurrentBank.Accounts.FirstOrDefault(c => c.Id == accountNumber);
+            var account = this.CurrentBank?.Accounts?.FirstOrDefault(c => c.Id == accountNumber);
             if (account != null && account.FundBalance - amount >= 0)
             {
                 account.FundBalance = account.FundBalance - amount;
@@ -48,7 +48,7 @@ namespace BankSimulator.Services.Services
 
         public double GetBalance(string accountId)
         {
-            Account account = this.CurrentBank.Accounts.FirstOrDefault(a => a.Id == accountId);
+            Account account = this.CurrentBank?.Accounts?.FirstOrDefault(a => a.Id == accountId);
             return account != null ? account.FundBalance : default(double);
         }
 
@@ -56,9 +56,9 @@ namespace BankSimulator.Services.Services
         {
             try
             {
-                var sourceAcc = this.CurrentBank.Accounts.FirstOrDefault(src => src.Id == srcAccount);
+                var sourceAcc = this.CurrentBank?.Accounts?.FirstOrDefault(src => src.Id == srcAccount);
                 Account destAcc = srcBank == descBank ?
-                    this.CurrentBank.Accounts.FirstOrDefault(desc => desc.Id == descAccount) :
+                    this.CurrentBank?.Accounts?.FirstOrDefault(desc => desc.Id == descAccount) :
                     MasterBankService.Banks.Where(a => a.Id == descBank).SelectMany(a => a.Accounts).FirstOrDefault(a => a.Id == descAccount);
 
                 return this.FundTransfer(sourceAcc, destAcc, srcBank == descBank ? this.CurrentBank.RTGSSame : this.CurrentBank.RTGSOther, amount, srcBank, descBank);

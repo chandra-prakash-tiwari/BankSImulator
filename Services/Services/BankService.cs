@@ -57,24 +57,38 @@ namespace Services
 
         public string CreateEmployee(Employee employee)
         {
-            employee.Id = employee.Name.Substring(0, 2) + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year;
-            employee.UserId = employee.Name.Substring(0, 3) + this.CurrentBank.Id;
-            this.CurrentBank.Employees.Add(employee);
-            return employee.Id;
+            try
+            {
+                employee.Id = employee.Name.Substring(0, 2) + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year;
+                employee.UserId = employee.Name.Substring(0, 3) + this.CurrentBank.Id;
+                this.CurrentBank.Employees.Add(employee);
+                return employee.Id;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public string CreateAccount(Account account)
         {
-            DateTime now = DateTime.Now;
-            account.Id = account.Holder.Name.Substring(0, 4) + now.Day + now.Month + now.Year;
-            account.Holder.UserId = account.Holder.Name.Substring(0, 3) + this.CurrentBank.Id;
-            this.CurrentBank.Accounts.Add(account);
-            return account.Id;
+            try
+            {
+                DateTime now = DateTime.Now;
+                account.Id = account.Holder.Name.Substring(0, 4) + now.Day + now.Month + now.Year;
+                account.Holder.UserId = account.Holder.Name.Substring(0, 3) + this.CurrentBank.Id;
+                this.CurrentBank.Accounts.Add(account);
+                return account.Id;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public bool RemoveEmployee(string id)
         {
-            Employee employee = this.CurrentBank.Employees.FirstOrDefault(a => a.Id == id);
+            Employee employee = this.CurrentBank?.Employees?.FirstOrDefault(a => a.Id == id);
             if (employee != null)
             {
                 this.CurrentBank.Employees.Remove(employee);
@@ -86,7 +100,7 @@ namespace Services
 
         public bool RemoveAccount(string id)
         {
-            Account account = this.CurrentBank.Accounts.FirstOrDefault(i => i.Id == id);
+            Account account = this.CurrentBank?.Accounts?.FirstOrDefault(i => i.Id == id);
             if (account != null)
             {
                 this.CurrentBank.Accounts.Remove(account);
@@ -98,7 +112,7 @@ namespace Services
 
         public bool UpdateAccount(Account account, string id)
         {
-            Account oldAccountDetail = this.CurrentBank.Accounts.FirstOrDefault(a => a.Id == id);
+            Account oldAccountDetail = this.CurrentBank?.Accounts?.FirstOrDefault(a => a.Id == id);
             if (oldAccountDetail != null)
             {
                 account.Id = oldAccountDetail.Id;
@@ -112,7 +126,7 @@ namespace Services
 
         public bool UpdateEmployee(Employee employee, string id)
         {
-            Employee oldEmployeeDetail = this.CurrentBank.Employees.FirstOrDefault(a => a.Id == id);
+            Employee oldEmployeeDetail = this.CurrentBank?.Employees?.FirstOrDefault(a => a.Id == id);
             if (oldEmployeeDetail != null)
             {
                 employee.Id = oldEmployeeDetail.Id;

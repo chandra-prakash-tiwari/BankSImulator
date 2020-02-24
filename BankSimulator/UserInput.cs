@@ -9,7 +9,7 @@ namespace BankSimulator
         {
             User admin = new User();
 
-            Console.WriteLine("Enter Admin Detail");
+            Console.WriteLine(Constant.AdminDetail);
 
             Console.Write(Constant.Name);
             admin.Name = Helper.GetValidString();
@@ -32,7 +32,7 @@ namespace BankSimulator
         {
             Account account = new Account();
 
-            Console.WriteLine("Enter Account Detail");
+            Console.WriteLine(Constant.AccountHolderDetail);
 
             Console.Write(Constant.Name);
             account.Holder.Name = Helper.GetValidString();
@@ -56,7 +56,7 @@ namespace BankSimulator
         {
             Employee employee = new Employee();
 
-            Console.WriteLine(" Enter Employee Detail");
+            Console.WriteLine(Constant.EmployeeDetail);
 
             Console.Write(Constant.Name);
             employee.Name = Helper.GetValidString();
@@ -79,7 +79,7 @@ namespace BankSimulator
         {
             Bank bank = new Bank();
 
-            Console.WriteLine("Enter Bank Detail");
+            Console.WriteLine(Constant.BankDetail);
 
             Console.Write(Constant.Name);
             bank.Name = Helper.GetValidString();

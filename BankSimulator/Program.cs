@@ -36,10 +36,9 @@ namespace BankSimulator
                     }
                     else
                     {
-                        Console.WriteLine("Deposit Will Be not perform for some reason");
+                        Console.WriteLine(Constant.DepositDecline);
                         Console.ReadKey();
                     }
-
                     CustomerMenu(accountService, user);
 
                     break;
@@ -54,38 +53,36 @@ namespace BankSimulator
                     }
                     else
                     {
-                        Console.WriteLine("Fund Balance is not sufficient");
+                        Console.WriteLine(Constant.CashWithDrawDecline);
                         Console.ReadKey();
                     }
-
                     CustomerMenu(accountService, user);
 
                     break;
 
                 case Models.CustomerMenu.FundTransfer:
-                    Console.Write("Receiver Account Number :");
+                    Console.Write(Constant.DestinationAccountNumber);
                     string accountNumber = Helper.GetValidString();
-                    Console.Write("Receiver BankID :");
+                    Console.Write(Constant.DestinationBankId);
                     string Id = Helper.GetValidString();
                     Console.WriteLine(Constant.TransactionAmount);
                     amount = Helper.GetValidDouble();
 
                     if (accountService.FundTransaction(account.Id, accountNumber, accountService.CurrentBank.Id, Id, amount))
                     {
-                        Console.WriteLine("Fund transfer is not completed");
+                        Console.WriteLine(Constant.FundTranserDecline);
                         Console.ReadKey();
                     }
-
                     CustomerMenu(accountService, user);
 
                     break;
 
                 case Models.CustomerMenu.ViewBalance:
                     TransactionService transactionService = new TransactionService(accountService.CurrentBank.Id);
-                    Console.WriteLine("Available balance in your account is: ", transactionService.ViewBalence(account.Id));
+                    Console.WriteLine(Constant.AvailbleBalance, transactionService.ViewBalence(account.Id));
                     Console.ReadLine();
-
                     CustomerMenu(accountService, user);
+
                     break;
 
                 case Models.CustomerMenu.SignOut:
@@ -113,16 +110,16 @@ namespace BankSimulator
                 case Models.AdministratorMenu.AddEmployee:
                     string employeeId = bankService.CreateEmployee(UserInput.GetEmployeeDetails());
                     Employee employee = bankService.GetEmployee(employeeId);
-                    Console.WriteLine($"Employee Id : {employeeId}");
-                    Console.WriteLine($"Employee User Id : {employee.UserId}");
-                    Console.WriteLine($"Employee Password : {employee.Password}");
+                    Console.WriteLine(Constant.EmployeeId, employeeId);
+                    Console.WriteLine(Constant.EmployeeUserName, employee.UserId);
+                    Console.WriteLine(Constant.EmployeePassword, employee.Password);
                     Console.ReadKey();
                     AdministratorMenu(bankService, accountService);
 
                     break;
 
                 case Models.AdministratorMenu.RemoveEmployee:
-                    Console.WriteLine("Enter Employee Id");
+                    Console.WriteLine(Constant.EmployeeId);
                     employeeId = Helper.GetValidString();
 
                     if (!bankService.HasEmployee(employeeId))
@@ -130,7 +127,7 @@ namespace BankSimulator
                     else
                     {
                         bankService.RemoveEmployee(employeeId);
-                        Console.WriteLine("Employee Will be Removed Successfully");
+                        Console.WriteLine(Constant.RemoveEmployee);
                         Console.ReadKey();
                     }
 
@@ -140,7 +137,7 @@ namespace BankSimulator
                     break;
 
                 case Models.AdministratorMenu.UpdateEmployee:
-                    Console.Write("Enter Employee Id");
+                    Console.Write(Constant.EmployeeId);
                     employeeId = Helper.GetValidString();
 
                     if (!bankService.HasEmployee(employeeId))
@@ -150,7 +147,7 @@ namespace BankSimulator
                     else
                     {
                         bankService.UpdateEmployee(UserInput.GetEmployeeDetails(), employeeId);
-                        Console.WriteLine("Employee Detail will be updated");
+                        Console.WriteLine(Constant.UpdateEmployee);
                     }
 
                     Console.ReadKey();
@@ -179,7 +176,7 @@ namespace BankSimulator
                     else
                     {
                         bankService.RemoveAccount(accountId);
-                        Console.WriteLine("Account will be removed");
+                        Console.WriteLine(Constant.RemoveAccount);
                     }
 
                     Console.ReadKey();
@@ -196,7 +193,7 @@ namespace BankSimulator
                     else
                     {
                         bankService.UpdateAccount(UserInput.GetAccountDetails(), accountId);
-                        Console.WriteLine("Account Detail will be updated");
+                        Console.WriteLine(Constant.UpdateAccount);
                     }
 
                     Console.ReadKey();
@@ -213,10 +210,10 @@ namespace BankSimulator
                 case Models.AdministratorMenu.CurrencyExchange:
                     Console.Write(Constant.TransactionAmount);
                     double amount = Helper.GetValidDouble();
-                    Console.Write("Enter the currency Rate");
+                    Console.Write(Constant.CurrencyRate);
                     float currencyRate = Helper.GetValidFloat();
 
-                    Console.WriteLine($"{amount * currencyRate} amount will be pay");
+                    Console.WriteLine(amount * currencyRate + Constant.PayableAmount);
                     AdministratorMenu(bankService, accountService);
 
                     break;
@@ -260,16 +257,16 @@ namespace BankSimulator
                         Console.Write(Constant.TransactionAmount);
                         double payout = Helper.GetValidDouble();
 
-                        Console.Write("Current Currency Rate  :");
+                        Console.Write(Constant.CurrencyRate);
                         double currencyValue = Helper.GetValidDouble();
 
                         payout = currencyValue * payout;
 
                         if (!accountService.Deposit(accountNumber, payout))
-                            Console.WriteLine($"Your new Balance is : {accountService.GetBalance(accountNumber)}");
+                            Console.WriteLine(Constant.CurrencyRate, accountService.GetBalance(accountNumber));
 
                         else
-                            Console.WriteLine("Deposit operation is not performed");
+                            Console.WriteLine(Constant.DepositDecline);
                     }
                     Console.ReadKey();
 
@@ -287,10 +284,10 @@ namespace BankSimulator
                         double payout = Helper.GetValidDouble();
 
                         if (accountService.CashWithdraw(accountNumber, payout))
-                            Console.WriteLine($"Your new Balance is : {accountService.GetBalance(accountNumber)}");
+                            Console.WriteLine(Constant.NewBalance, accountService.GetBalance(accountNumber));
 
                         else
-                            Console.WriteLine("CashWithdraw operation is not performed");
+                            Console.WriteLine(Constant.CashWithDrawDecline);
                     }
 
                     Console.ReadKey();
@@ -298,19 +295,19 @@ namespace BankSimulator
                     break;
 
                 case Models.TransactionMenu.FundTransfer:
-                    Console.Write($"Source {Constant.AccountNumber}");
+                    Console.Write(Constant.SourceAccountNumber);
                     string SourceAccountNumber = Helper.GetValidString();
 
-                    Console.Write($"Destination {Constant.AccountNumber}");
+                    Console.Write(Constant.DestinationAccountNumber);
                     string DestinationAccountNumber = Helper.GetValidString();
 
-                    Console.Write("Enter Destination IFSC Code");
+                    Console.Write(Constant.DestinationBankId);
                     string DestinationIFSCCode = Helper.GetValidString();
 
                     Console.Write(Constant.TransactionAmount);
                     double amount = Helper.GetValidDouble();
                     if (accountService.FundTransaction(SourceAccountNumber, DestinationAccountNumber, bankService.CurrentBank.Id, DestinationIFSCCode, amount))
-                        Console.WriteLine("Fund Transfer will be not perform ");
+                        Console.WriteLine(Constant.FundTranserDecline);
                     Console.ReadKey();
 
                     break;
@@ -321,23 +318,26 @@ namespace BankSimulator
 
                     double? fundBalance = transactionService.ViewBalence(getAccountNumber);
                     if (fundBalance != null)
-                        Console.WriteLine($"Your balance is {fundBalance}");
+                        Console.WriteLine(Constant.NewBalance,fundBalance);
                     else
-                        Console.WriteLine("this account number is not present in current bank");
+                        Console.WriteLine(Constant.AcoountNotFound);
 
                     Console.ReadKey();
 
                     break;
 
                 case Models.TransactionMenu.TransactionRevert:
-                    Console.Write("Enter the Transaction Id");
+                    Console.Write(Constant.TransactionId);
                     string Id = Helper.GetValidString();
 
                     if (!transactionService.RevertTransaction(Id))
-                        Console.WriteLine("Transaction revert will not be done");
+                    {
+                        Console.WriteLine(Constant.RevertDecline);
+                    }
                     else
-                        Console.WriteLine("Transaction revert completed");
-
+                    {
+                        Console.WriteLine(Constant.RevertDone);
+                    }
                     Console.ReadKey();
 
                     break;
@@ -382,7 +382,7 @@ namespace BankSimulator
                     else
                     {
                         bankService.RemoveAccount(accountId);
-                        Console.WriteLine("Account will be removed");
+                        Console.WriteLine(Constant.RemoveAccount);
                     }
 
                     Console.ReadKey();
@@ -393,7 +393,7 @@ namespace BankSimulator
                     break;
 
                 case Models.EmployeeMenu.UpdateAccount:
-                    Console.Write("Enter Account Id");
+                    Console.Write(Constant.AccountNumber);
                     accountId = Helper.GetValidString();
 
                     account = bankService.GetAccount(accountId);
@@ -402,7 +402,7 @@ namespace BankSimulator
                     else
                     {
                         bankService.UpdateAccount(UserInput.GetAccountDetails(), accountId);
-                        Console.WriteLine("Account Detail will be updated");
+                        Console.WriteLine(Constant.UpdateAccount);
                     }
 
                     Console.ReadKey();
@@ -417,11 +417,11 @@ namespace BankSimulator
                     break;
 
                 case Models.EmployeeMenu.CurrencyExchange:
-                    Console.Write("Enter the Amount");
+                    Console.Write(Constant.TransactionAmount);
                     double amount = Helper.GetValidDouble();
-                    Console.Write("Enter the currency Rate");
+                    Console.Write(Constant.CurrencyRate);
                     float currencyRate = Helper.GetValidFloat();
-                    Console.Write($"{amount * currencyRate} amount will be pay");
+                    Console.Write(amount * currencyRate+Constant.PayableAmount);
                     EmployeeMenu(bankService, accountService);
 
                     break;
@@ -462,8 +462,8 @@ namespace BankSimulator
                     Console.WriteLine(Constant.AdminCredentials);
                     Console.WriteLine(Constant.UserId + MasterBankService.GetBank(bankId)?.Admin?.UserId);
                     Console.ReadKey();
-
                     Initialize();
+
                     break;
 
                 case MainMenu.Login:
@@ -512,11 +512,6 @@ namespace BankSimulator
 
                 case UserType.Account:
                     Program.CustomerMenu(accountService, CurrentUser);
-                    break;
-
-                default:
-                    Console.WriteLine("User Can't Find");
-                    Console.Read();
                     break;
             }
         }
