@@ -46,10 +46,10 @@ namespace BankSimulator.Services.Services
             return false;
         }
 
-        public double GetBalance(string AccountId)
+        public double GetBalance(string accountId)
         {
-            Account account = this.CurrentBank.Accounts.FirstOrDefault(a => a.Id == AccountId);
-            return account.FundBalance;
+            Account account = this.CurrentBank.Accounts.FirstOrDefault(a => a.Id == accountId);
+            return account != null ? account.FundBalance : default(double);
         }
 
         public bool FundTransaction(string srcAccount, string descAccount, string srcBank, string descBank, double amount)
@@ -57,18 +57,11 @@ namespace BankSimulator.Services.Services
             try
             {
                 var sourceAcc = this.CurrentBank.Accounts.FirstOrDefault(src => src.Id == srcAccount);
-                if (srcBank == descBank)
-                {
-                    var destinationAcc = this.CurrentBank.Accounts.FirstOrDefault(desc => desc.Id == descAccount);
-                    this.FundTransfer(sourceAcc, destinationAcc, this.CurrentBank.RTGSSame, amount, srcBank, descBank);
-                }
-                else
-                {
-                    var destinationAcc = MasterBankService.Banks.Where(a => a.Id == descBank).SelectMany(a => a.Accounts).FirstOrDefault(a => a.Id == descAccount);
-                    this.FundTransfer(sourceAcc, destinationAcc, this.CurrentBank.RTGSOther, amount, srcBank, descBank);
-                }
+                Account destAcc = srcBank == descBank ?
+                    this.CurrentBank.Accounts.FirstOrDefault(desc => desc.Id == descAccount) :
+                    MasterBankService.Banks.Where(a => a.Id == descBank).SelectMany(a => a.Accounts).FirstOrDefault(a => a.Id == descAccount);
 
-                return false;
+                return this.FundTransfer(sourceAcc, destAcc, srcBank == descBank ? this.CurrentBank.RTGSSame : this.CurrentBank.RTGSOther, amount, srcBank, descBank);
             }
             catch (Exception)
             {
@@ -82,12 +75,7 @@ namespace BankSimulator.Services.Services
             {
                 sourceAcc.FundBalance = sourceAcc.FundBalance - (amount + (amount * rtgs / 100));
                 destAccount.FundBalance = destAccount.FundBalance + amount;
-                Transaction transaction = new Transaction
-                {
-                    DestBankId = descBank,
-                    DescAccountNumber = sourceAcc.Id
-                };
-                transaction = this.GetNewTransaction(TransactionType.FundTransfer, srcBank, amount);
+                Transaction transaction = this.GetNewTransaction(TransactionType.FundTransfer, srcBank, amount);
                 sourceAcc.Transactions.Add(transaction);
             }
 
@@ -103,7 +91,7 @@ namespace BankSimulator.Services.Services
                 Date = DateTime.Now,
                 Amount = amount,
                 Mode = type,
-                AccountNumber = accountNumber
+                SrcAccountNumber = accountNumber
             };
         }
     }

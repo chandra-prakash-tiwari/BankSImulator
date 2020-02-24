@@ -17,15 +17,15 @@ namespace Services
 
         public bool HasEmployee(string id)
         {
-            return this.CurrentBank != null ? this.CurrentBank.Employees.FirstOrDefault(a => a.Id == id) !=null ? true : false : false;
+            return this.CurrentBank != null && this.CurrentBank.Employees.Any(a => a.Id == id);
         }
 
         public bool HasAccount(string id)
         {
-            return this.CurrentBank != null ? this.CurrentBank.Accounts.FirstOrDefault(a => a.Id == id) != null ? true : false : false;
+            return this.CurrentBank != null && this.CurrentBank.Accounts.Any(a => a.Id == id);
         }
 
-        public static bool CreateAdmin(User user,string bankId)
+        public static bool CreateAdmin(User user, string bankId)
         {
             user.BankId = bankId;
             user.UserId = user.Name.Substring(0, 3) + bankId;

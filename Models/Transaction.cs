@@ -14,7 +14,7 @@ namespace BankSimulator.Models
 
         public TransactionStatus Status { get; set; }
 
-        public string AccountNumber { get; set; }
+        public string SrcAccountNumber { get; set; }
 
         public string SrcBankId { get; set; }
 

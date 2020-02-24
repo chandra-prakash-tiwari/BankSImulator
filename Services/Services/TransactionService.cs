@@ -14,7 +14,7 @@ namespace Services.Services
             this.CurrentBank = MasterBankService.GetBank(bankId);
         }
 
-        public double? ViewBalence(string accountNumber)
+        public double ViewBalence(string accountNumber)
         {
             var account = this.CurrentBank.Accounts.FirstOrDefault(c => c.Id == accountNumber);
             if (account != null)
@@ -22,7 +22,7 @@ namespace Services.Services
                 return account.FundBalance;
             }
 
-            return null;
+            return default(double);
         }
 
         public bool RevertTransaction(string id)
@@ -32,7 +32,7 @@ namespace Services.Services
                 Transaction transaction = this.CurrentBank.Accounts.SelectMany(a => a.Transactions).Single(a => a.Id == id);
                 if (transaction != null)
                 {
-                    Account srcAccount = this.CurrentBank.Accounts.FirstOrDefault(a => a.Id == transaction.AccountNumber);
+                    Account srcAccount = this.CurrentBank.Accounts.FirstOrDefault(a => a.Id == transaction.SrcAccountNumber);
                     if (srcAccount != null)
                     {
                         if (transaction.Mode == TransactionType.Deposit)
@@ -51,7 +51,7 @@ namespace Services.Services
                         {
                             if (transaction.SrcBankId == transaction.DestBankId)
                             {
-                                Account destAccount = this.CurrentBank.Accounts.FirstOrDefault(a => a.Id == transaction.AccountNumber);
+                                Account destAccount = this.CurrentBank.Accounts.FirstOrDefault(a => a.Id == transaction.SrcAccountNumber);
                                 if (destAccount != null)
                                 {
                                     srcAccount.FundBalance = srcAccount.FundBalance + transaction.Amount;
@@ -62,7 +62,7 @@ namespace Services.Services
                             }
                             else
                             {
-                                Account destAccount = MasterBankService.Banks.Where(a => a.Id == transaction.DestBankId).SelectMany(a => a.Accounts).FirstOrDefault(a => a.Id == transaction.AccountNumber);
+                                Account destAccount = MasterBankService.Banks.Where(a => a.Id == transaction.DestBankId).SelectMany(a => a.Accounts).FirstOrDefault(a => a.Id == transaction.SrcAccountNumber);
                                 if (destAccount != null)
                                 {
                                     srcAccount.FundBalance = srcAccount.FundBalance + transaction.Amount;

@@ -82,11 +82,10 @@ namespace BankSimulator
 
                 case Models.CustomerMenu.ViewBalance:
                     TransactionService transactionService = new TransactionService(accountService.CurrentBank.Id);
-                    transactionService.ViewBalence(account.Id);
+                    Console.WriteLine("Available balance in your account is: ", transactionService.ViewBalence(account.Id));
                     Console.ReadLine();
 
                     CustomerMenu(accountService, user);
-
                     break;
 
                 case Models.CustomerMenu.SignOut:
@@ -322,7 +321,7 @@ namespace BankSimulator
 
                     double? fundBalance = transactionService.ViewBalence(getAccountNumber);
                     if (fundBalance != null)
-                        Console.WriteLine($"Your Balance is {fundBalance}");
+                        Console.WriteLine($"Your balance is {fundBalance}");
                     else
                         Console.WriteLine("this account number is not present in current bank");
 
@@ -335,9 +334,9 @@ namespace BankSimulator
                     string Id = Helper.GetValidString();
 
                     if (!transactionService.RevertTransaction(Id))
-                        Console.WriteLine("Transaction Revert will not be done");
+                        Console.WriteLine("Transaction revert will not be done");
                     else
-                        Console.WriteLine("Transaction Revert completed");
+                        Console.WriteLine("Transaction revert completed");
 
                     Console.ReadKey();
 
@@ -453,25 +452,27 @@ namespace BankSimulator
             Console.Clear();
             Console.Write(Constant.MainMenu);
             MainMenu option = (MainMenu)Helper.GetValidInteger();
-            Console.Clear();
             switch (option)
             {
                 case MainMenu.BankSetup:
                     string bankId = MasterBankService.CreateBank(UserInput.GetBankDetails());
                     Console.WriteLine(Constant.BankId + bankId);
 
-                    BankService.CreateAdmin(UserInput.GetAdminDetails(),bankId);
-                    Console.WriteLine("Admin Credentials");
-                    Console.WriteLine(Constant.UserId + MasterBankService.GetBank(bankId).Admin.UserId);
-                    Console.WriteLine(Constant.Password + MasterBankService.GetBank(bankId).Admin.Password);
+                    BankService.CreateAdmin(UserInput.GetAdminDetails(), bankId);
+                    Console.WriteLine(Constant.AdminCredentials);
+                    Console.WriteLine(Constant.UserId + MasterBankService.GetBank(bankId)?.Admin?.UserId);
                     Console.ReadKey();
-                    Initialize();
 
+                    Initialize();
                     break;
 
                 case MainMenu.Login:
-                    this.CurrentUser = this.Authentication(GetCredentials());
-                    if (!NavigateUser(this.CurrentUser))
+                    this.CurrentUser = this.Authentication(UserInput.GetCredentials());
+                    if (this.CurrentUser != null)
+                    {
+                        this.NavigateUser(CurrentUser);
+                    }
+                    else
                     {
                         Console.WriteLine(Constant.UserNotFound);
                         this.Initialize();
@@ -493,83 +494,60 @@ namespace BankSimulator
             Initialize();
         }
 
-        public static Login GetCredentials()
+        public User Authentication(Login loginRequest)
         {
-            Login login = new Login();
-
-            Console.Write(Constant.UserId);
-            login.UserName = Helper.GetValidString();
-            Console.Write(Constant.Password);
-            login.Password = Helper.GetValidString();
-
-            return login;
-        }
-
-        public User Authentication(Login login)
-        {
-            string bankId = login.UserName.Substring(3);
+            string bankId = loginRequest.UserName.Substring(3);
             Bank bank = MasterBankService.Banks.FirstOrDefault(b => b.Id == bankId);
-
             if (bank != null)
             {
-                if (bank.Admin.UserId == login.UserName && bank.Admin.Password == login.Password)
+                if (bank.Admin.UserId == loginRequest.UserName && bank.Admin.Password == loginRequest.Password)
                 {
                     return bank.Admin;
                 }
                 else
                 {
-                    Employee employee = bank.Employees.FirstOrDefault(e => e.UserId == login.UserName);
-                    Account customer = bank.Accounts.FirstOrDefault(c => c.Holder.UserId == login.UserName);
-
-                    if (employee != null && employee.Password == login.Password)
+                    Employee employee = bank.Employees.FirstOrDefault(e => e.UserId == loginRequest.UserName);
+                    if (employee != null && employee.Password == loginRequest.Password)
                     {
                         return employee;
                     }
 
-                    if (customer != null && customer.Holder.Password == login.Password)
+                    Account customer = bank.Accounts.FirstOrDefault(c => c.Holder.UserId == loginRequest.UserName);
+                    if (customer != null && customer.Holder.Password == loginRequest.Password)
                     {
                         return customer.Holder;
                     }
                 }
-                return null;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
 
-        public bool NavigateUser(User CurrentUser)
+        public void NavigateUser(User CurrentUser)
         {
-            if (this.CurrentUser != null)
+            Bank bank = MasterBankService.Banks.FirstOrDefault(c => c.Id == CurrentUser.UserId.Substring(3));
+            AccountService accountService = new AccountService(bank.Id);
+            var bankService = new BankService(bank.Id);
+
+            switch (this.CurrentUser.UserType)
             {
-                Bank bank = MasterBankService.Banks.FirstOrDefault(c => c.Id == CurrentUser.UserId.Substring(3));
-                AccountService accountService = new AccountService(bank.Id);
-                var bankService = new BankService(bank.Id);
+                case UserType.Admin:
+                    Program.AdministratorMenu(bankService, accountService);
+                    break;
 
-                switch (this.CurrentUser.UserType)
-                {
-                    case UserType.Admin:
-                        Program.AdministratorMenu(bankService, accountService);
-                        break;
+                case UserType.Employee:
+                    Program.EmployeeMenu(bankService, accountService);
+                    break;
 
-                    case UserType.Employee:
-                        Program.EmployeeMenu(bankService, accountService);
-                        break;
+                case UserType.Account:
+                    Program.CustomerMenu(accountService, CurrentUser);
+                    break;
 
-                    case UserType.Account:
-                        Program.CustomerMenu(accountService, CurrentUser);
-                        break;
-
-                    default:
-                        Console.WriteLine("User Can't Find");
-                        Console.Read();
-                        break;
-                }
-                return true;
+                default:
+                    Console.WriteLine("User Can't Find");
+                    Console.Read();
+                    break;
             }
-            else
-                return false;
         }
     }
 }

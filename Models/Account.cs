@@ -18,6 +18,5 @@ namespace BankSimulator.Models
 
             Holder = new User();
         }
-
     }
 }

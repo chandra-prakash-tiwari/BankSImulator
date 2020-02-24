@@ -104,5 +104,17 @@ namespace BankSimulator
 
             return bank;
         }
+
+        public static Login GetCredentials()
+        {
+            Login login = new Login();
+
+            Console.Write(Constant.UserId);
+            login.UserName = Helper.GetValidString();
+            Console.Write(Constant.Password);
+            login.Password = Helper.GetValidString();
+
+            return login;
+        }
     }
 }
