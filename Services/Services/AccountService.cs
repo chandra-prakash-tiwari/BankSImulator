@@ -75,7 +75,7 @@ namespace BankSimulator.Services.Services
             {
                 sourceAcc.FundBalance = sourceAcc.FundBalance - (amount + (amount * rtgs / 100));
                 destAccount.FundBalance = destAccount.FundBalance + amount;
-                Transaction transaction = this.GetNewTransaction(TransactionType.FundTransfer, srcBank, amount);
+                Transaction transaction = this.GetNewTransaction(TransactionType.FundTransfer, sourceAcc.Id, destAccount.Id, descBank, amount);
                 sourceAcc.Transactions.Add(transaction);
             }
 
@@ -92,6 +92,21 @@ namespace BankSimulator.Services.Services
                 Amount = amount,
                 Mode = type,
                 SrcAccountNumber = accountNumber
+            };
+        }
+
+        public Transaction GetNewTransaction(TransactionType type, string srcAccountNumber, string descAccountnumber, string descBankId, double amount)
+        {
+            return new Transaction()
+            {
+                Id = "TXN" + this.CurrentBank.Id + srcAccountNumber + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year,
+                SrcBankId = this.CurrentBank.Id,
+                DestBankId=descBankId,
+                SrcAccountNumber = srcAccountNumber,
+                DescAccountNumber= descAccountnumber,
+                Date = DateTime.Now,
+                Amount = amount,
+                Mode = type
             };
         }
     }

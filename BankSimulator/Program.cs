@@ -467,7 +467,7 @@ namespace BankSimulator
                     break;
 
                 case MainMenu.Login:
-                    this.CurrentUser = this.Authentication(UserInput.GetCredentials());
+                    this.CurrentUser = MasterBankService.Authentication(UserInput.GetCredentials());
                     if (this.CurrentUser != null)
                     {
                         this.NavigateUser(CurrentUser);
@@ -492,35 +492,6 @@ namespace BankSimulator
             }
 
             Initialize();
-        }
-
-        public User Authentication(Login loginRequest)
-        {
-            string bankId = loginRequest.UserName.Substring(3);
-            Bank bank = MasterBankService.Banks.FirstOrDefault(b => b.Id == bankId);
-            if (bank != null)
-            {
-                if (bank.Admin.UserId == loginRequest.UserName && bank.Admin.Password == loginRequest.Password)
-                {
-                    return bank.Admin;
-                }
-                else
-                {
-                    Employee employee = bank.Employees.FirstOrDefault(e => e.UserId == loginRequest.UserName);
-                    if (employee != null && employee.Password == loginRequest.Password)
-                    {
-                        return employee;
-                    }
-
-                    Account customer = bank.Accounts.FirstOrDefault(c => c.Holder.UserId == loginRequest.UserName);
-                    if (customer != null && customer.Holder.Password == loginRequest.Password)
-                    {
-                        return customer.Holder;
-                    }
-                }
-            }
-
-            return null;
         }
 
         public void NavigateUser(User CurrentUser)

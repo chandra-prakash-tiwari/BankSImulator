@@ -35,7 +35,7 @@ namespace Services
 
         public Employee GetEmployee(string id)
         {
-            Employee employee = this.CurrentBank.Employees.FirstOrDefault(a => a.Id == id);
+            Employee employee = this.CurrentBank?.Employees?.FirstOrDefault(a => a.Id == id);
             if (employee != null)
             {
                 return employee;
