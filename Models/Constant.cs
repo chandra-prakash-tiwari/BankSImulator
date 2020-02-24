@@ -8,9 +8,9 @@ namespace BankSimulator.Models
 {
     public class Constant
     {
-        public static readonly string Invalid = "Please Enter Correct Value";
+        public static readonly string Invalid = "Please enter correct value";
 
-        public static readonly string AdminMenu = " 1. Add new employee\n 2. Remove Employee\n 3. Update employee detail\n 4. Add new account\n 5. Remove account\n 6. Update account\n 7. Account transaction\n 8. Currency exchange\n 9. SignOut\n 10.Exit";
+        public static readonly string AdminMenu = " 1. Add new employee\n 2. Remove employee\n 3. Update employee detail\n 4. Add new account\n 5. Remove account\n 6. Update account\n 7. Account transaction\n 8. Currency exchange\n 9. SignOut\n 10.Exit";
 
         public static readonly string EmployeeMenu = " 1. Add new account\n 2. Remove account\n 3 .Update account\n 4. Transaction\n 5. Currency exchange\n 6. SignOut\n 7. Exit";
 

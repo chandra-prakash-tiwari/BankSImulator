@@ -71,5 +71,17 @@ namespace BankSimulator
 
             return userString;
         }
+
+        public static string GetValidName()
+        {
+            string userString = Console.ReadLine();
+            if (string.IsNullOrEmpty(userString)&&userString.Length>3)
+            {
+                Console.WriteLine(Constant.Invalid);
+                userString = GetValidString();
+            }
+
+            return userString;
+        }
     }
 }

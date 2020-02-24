@@ -61,7 +61,9 @@ namespace Services
             {
                 employee.Id = employee.Name.Substring(0, 2) + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year;
                 employee.UserId = employee.Name.Substring(0, 3) + this.CurrentBank.Id;
+                employee.BankId = this.CurrentBank.Id;
                 this.CurrentBank.Employees.Add(employee);
+
                 return employee.Id;
             }
             catch (Exception ex)

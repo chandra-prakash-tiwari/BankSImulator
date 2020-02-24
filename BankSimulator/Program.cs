@@ -18,11 +18,9 @@ namespace BankSimulator
 
         public static void CustomerMenu(AccountService accountService, User user)
         {
-            Console.Clear();
             Account account = accountService.CurrentBank.Accounts.FirstOrDefault(a => a.Holder.UserId == user.UserId);
             Console.Write(Constant.UserMenu);
             CustomerMenu option = (CustomerMenu)Helper.GetValidInteger();
-            Console.Clear();
             switch (option)
             {
                 case Models.CustomerMenu.Deposit:
@@ -101,18 +99,16 @@ namespace BankSimulator
 
         public static void AdministratorMenu(BankService bankService, AccountService accountService)
         {
-            Console.Clear();
             Console.Write(Constant.AdminMenu);
             AdministratorMenu option = (AdministratorMenu)Helper.GetValidInteger();
-            Console.Clear();
             switch (option)
             {
                 case Models.AdministratorMenu.AddEmployee:
                     string employeeId = bankService.CreateEmployee(UserInput.GetEmployeeDetails());
                     Employee employee = bankService.GetEmployee(employeeId);
-                    Console.WriteLine(Constant.EmployeeId, employeeId);
-                    Console.WriteLine(Constant.EmployeeUserName, employee.UserId);
-                    Console.WriteLine(Constant.EmployeePassword, employee.Password);
+                    Console.WriteLine(Constant.EmployeeId + employeeId);
+                    Console.WriteLine(Constant.EmployeeUserName + employee.UserId);
+                    Console.WriteLine(Constant.EmployeePassword + employee.Password);
                     Console.ReadKey();
                     AdministratorMenu(bankService, accountService);
 
@@ -237,13 +233,10 @@ namespace BankSimulator
 
         public static void TransactionMenu(BankService bankService, AccountService accountService)
         {
-            Console.Clear();
-
             TransactionService transactionService = new TransactionService(bankService.CurrentBank.Id);
             Console.Write(Constant.TransactionMenu);
 
             TransactionMenu option = (TransactionMenu)Helper.GetValidInteger();
-            Console.Clear();
             switch (option)
             {
                 case Models.TransactionMenu.Deposit:
@@ -359,10 +352,8 @@ namespace BankSimulator
 
         public static void EmployeeMenu(BankService bankService, AccountService accountService)
         {
-            Console.Clear();
             Console.Write(Constant.EmployeeMenu);
             EmployeeMenu option = (EmployeeMenu)Helper.GetValidInteger();
-            Console.Clear();
             switch (option)
             {
                 case Models.EmployeeMenu.AddAccount:
@@ -449,7 +440,6 @@ namespace BankSimulator
 
         public void Initialize()
         {
-            Console.Clear();
             Console.Write(Constant.MainMenu);
             MainMenu option = (MainMenu)Helper.GetValidInteger();
             switch (option)
