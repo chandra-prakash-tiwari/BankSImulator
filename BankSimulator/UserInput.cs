@@ -17,6 +17,9 @@ namespace BankSimulator
             Console.Write(Constant.PhoneNumber);
             admin.PhoneNumber = Helper.GetValidLong();
 
+            Console.Write(Constant.Email);
+            admin.Email = Helper.GetValidEmail();
+
             Console.Write(Constant.Address);
             admin.Address = Helper.GetValidString();
 
@@ -39,6 +42,9 @@ namespace BankSimulator
 
             Console.Write(Constant.PhoneNumber);
             account.Holder.PhoneNumber = Helper.GetValidLong();
+
+            Console.Write(Constant.Email);
+            account.Holder.Email = Helper.GetValidEmail();
 
             Console.Write(Constant.Address);
             account.Holder.Address = Helper.GetValidString();
@@ -63,6 +69,9 @@ namespace BankSimulator
 
             Console.Write(Constant.PhoneNumber);
             employee.PhoneNumber = Helper.GetValidLong();
+
+            Console.Write(Constant.Email);
+            employee.Email = Helper.GetValidEmail();
 
             Console.Write(Constant.Address);
             employee.Address = Helper.GetValidString();

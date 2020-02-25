@@ -25,14 +25,6 @@ namespace Services
             return this.CurrentBank != null && this.CurrentBank.Accounts.Any(a => a.Id == id);
         }
 
-        public static bool CreateAdmin(User user, string bankId)
-        {
-            user.BankId = bankId;
-            user.UserId = user.Name.Substring(0, 3) + bankId;
-            MasterBankService.GetBank(bankId).Admin = user;
-            return true;
-        }
-
         public Employee GetEmployee(string id)
         {
             Employee employee = this.CurrentBank?.Employees?.FirstOrDefault(a => a.Id == id);
@@ -53,6 +45,14 @@ namespace Services
             }
 
             return null;
+        }
+
+        public static bool CreateAdmin(User user, string bankId)
+        {
+            user.BankId = bankId;
+            user.UserId = user.Name.Substring(0, 3) + bankId;
+            MasterBankService.GetBank(bankId).Admin = user;
+            return true;
         }
 
         public string CreateEmployee(Employee employee)

@@ -2,6 +2,7 @@
 using Services.Services;
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace BankSimulator
 {
@@ -72,6 +73,20 @@ namespace BankSimulator
             }
 
             return userString;
+        }
+
+        public static string GetValidEmail()
+        {
+            string email = Console.ReadLine();
+            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            Match match = regex.Match(email);
+            if (string.IsNullOrEmpty(email)|| !match.Success)
+            {
+                Console.WriteLine(Constant.Invalid);
+                email = GetValidEmail();
+            }
+
+            return email;
         }
 
         public static string GetValidBankName()

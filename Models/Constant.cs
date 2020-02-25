@@ -30,6 +30,8 @@ namespace BankSimulator.Models
 
         public static readonly string PhoneNumber = "Phone number : ";
 
+        public static readonly string Email = "Email : ";
+
         public static readonly string UserId = "User name : ";
 
         public static readonly string Password = "Password : ";
