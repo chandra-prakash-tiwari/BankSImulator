@@ -30,24 +30,24 @@ namespace Services.Services
 
         public static User Authentication(Login loginRequest)
         {
-            string bankId = loginRequest.UserName.Substring(3);
-            Bank bank = Banks.FirstOrDefault(b => b.Id == bankId);
+            string bankId = loginRequest?.UserName.Substring(3);
+            Bank bank = Banks?.FirstOrDefault(b => b.Id == bankId);
             if (bank != null)
             {
-                if (string.Compare(bank.Admin.UserId, loginRequest.UserName) == 0 && string.Compare(bank.Admin.Password, loginRequest.Password) == 0)
+                if (string.Compare(bank?.Admin?.UserId, loginRequest?.UserName) == 0 && string.Compare(bank?.Admin?.Password, loginRequest?.Password) == 0)
                 {
                     return bank.Admin;
                 }
                 else
                 {
-                    Employee employee = bank.Employees.FirstOrDefault(e => e.UserId == loginRequest.UserName);
-                    if (employee != null && employee.Password == loginRequest.Password)
+                    Employee employee = bank?.Employees?.FirstOrDefault(e => e.UserId == loginRequest.UserName);
+                    if (employee != null && employee?.Password == loginRequest?.Password)
                     {
                         return employee;
                     }
 
-                    Account customer = bank.Accounts.FirstOrDefault(c => c.Holder.UserId == loginRequest.UserName);
-                    if (customer != null && customer.Holder.Password == loginRequest.Password)
+                    Account customer = bank?.Accounts?.FirstOrDefault(c => c.Holder.UserId == loginRequest.UserName);
+                    if (customer != null && customer?.Holder.Password == loginRequest?.Password)
                     {
                         return customer.Holder;
                     }
@@ -61,13 +61,29 @@ namespace Services.Services
         {
             try
             {
-                Bank bank = Banks.FirstOrDefault(a => a.Id == id);
+                Bank bank = Banks?.FirstOrDefault(a => a.Id == id);
                 return bank;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+        }
+
+        public static bool BankIdVerification(string name)
+        {
+            return Banks?.Where(a => a.Id == name.Substring(0, 3) + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year).Select(a => a).ToList().Count == 0 ? true : false;
+        }
+
+        public static bool EmployeeUserNameVerification(string name)
+        {
+            return Banks?.SelectMany(a => a.Employees).Where(a => a.UserId == name.Substring(0, 3) + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year).ToList().Count == 0 ? true : false;
+        }
+
+
+        public static bool AccountUserNameVerification(string name)
+        {
+            return Banks?.SelectMany(a => a.Accounts).Where(a => a.Holder.UserId == name.Substring(0, 3) + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year).ToList().Count == 0 ? true : false;
         }
     }
 }

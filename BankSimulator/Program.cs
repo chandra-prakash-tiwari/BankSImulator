@@ -446,6 +446,10 @@ namespace BankSimulator
             {
                 case MainMenu.BankSetup:
                     string bankId = MasterBankService.CreateBank(UserInput.GetBankDetails());
+                    if (bankId == null)
+                    {
+                        Console.WriteLine(Constant.BankIdNotAvailable);
+                    }
                     Console.WriteLine(Constant.BankId + bankId);
 
                     BankService.CreateAdmin(UserInput.GetAdminDetails(), bankId);
@@ -465,6 +469,7 @@ namespace BankSimulator
                     else
                     {
                         Console.WriteLine(Constant.UserNotFound);
+                        Console.ReadKey();
                         this.Initialize();
                     }
 

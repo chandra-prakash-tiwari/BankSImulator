@@ -90,6 +90,20 @@ namespace BankSimulator.Models
 
         public static readonly string NewBalance = "Your new balance";
 
-        public static readonly string AdminCredentials = "Admin Credentials";
+        public static readonly string AdminCredentials = "Admin credentials";
+
+        public static readonly string UserNameNotAvailable = "User name is not available so choose another name";
+
+        public static readonly string BankIdNotAvailable = "Bank Id is previously available so choose another bank name";
+
+        public static readonly string RTGSRateForSame = "RTGS for same Bank : ";
+
+        public static readonly string RTGSRateForOther = "RTGS for other Bank : ";
+
+        public static readonly string ITGSRateForSame = "ITGS for same Bank  : ";
+
+        public static readonly string ITGSRateForOther = "ITGS for Other Bank : ";
+
+        public static readonly string DefaultCurrency = "Default Currency  : ";
     }
 }

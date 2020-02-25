@@ -1,5 +1,7 @@
 ﻿using BankSimulator.Models;
+using Services.Services;
 using System;
+using System.Linq;
 
 namespace BankSimulator
 {
@@ -72,16 +74,55 @@ namespace BankSimulator
             return userString;
         }
 
-        public static string GetValidName()
+        public static string GetValidBankName()
         {
-            string userString = Console.ReadLine();
-            if (string.IsNullOrEmpty(userString)&&userString.Length>3)
+            string validBankName = Console.ReadLine();
+            if (string.IsNullOrEmpty(validBankName) && validBankName.Length>3)
             {
                 Console.WriteLine(Constant.Invalid);
-                userString = GetValidString();
+                validBankName = GetValidBankName();
+            }
+            else if (!MasterBankService.BankIdVerification(validBankName))
+            {
+                Console.WriteLine(Constant.UserNameNotAvailable);
+                validBankName = GetValidBankName();
             }
 
-            return userString;
+            return validBankName;
+        }
+
+        public static string GetValidAccountName()
+        {
+            string UserName = Console.ReadLine();
+            if (string.IsNullOrEmpty(UserName))
+            {
+                Console.WriteLine(Constant.Invalid);
+                UserName = GetValidAccountName();
+            }
+            else if (!MasterBankService.AccountUserNameVerification(UserName))
+            {
+                Console.WriteLine(Constant.UserNameNotAvailable);
+                UserName = GetValidAccountName();
+            }
+
+            return UserName;
+        }
+
+        public static string GetValidEmployeeName()
+        {
+            string UserName = Console.ReadLine();
+            if (string.IsNullOrEmpty(UserName))
+            {
+                Console.WriteLine(Constant.Invalid);
+                UserName = GetValidAccountName();
+            }
+            else if (!MasterBankService.EmployeeUserNameVerification(UserName))
+            {
+                Console.WriteLine(Constant.UserNameNotAvailable);
+                UserName = GetValidEmployeeName();
+            }
+
+            return UserName;
         }
     }
 }

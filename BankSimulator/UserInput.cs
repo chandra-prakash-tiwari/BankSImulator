@@ -12,7 +12,7 @@ namespace BankSimulator
             Console.WriteLine(Constant.AdminDetail);
 
             Console.Write(Constant.Name);
-            admin.Name = Helper.GetValidName();
+            admin.Name = Helper.GetValidEmployeeName();
 
             Console.Write(Constant.PhoneNumber);
             admin.PhoneNumber = Helper.GetValidLong();
@@ -35,7 +35,7 @@ namespace BankSimulator
             Console.WriteLine(Constant.AccountHolderDetail);
 
             Console.Write(Constant.Name);
-            account.Holder.Name = Helper.GetValidName();
+            account.Holder.Name = Helper.GetValidAccountName();
 
             Console.Write(Constant.PhoneNumber);
             account.Holder.PhoneNumber = Helper.GetValidLong();
@@ -59,7 +59,7 @@ namespace BankSimulator
             Console.WriteLine(Constant.EmployeeDetail);
 
             Console.Write(Constant.Name);
-            employee.Name = Helper.GetValidName();
+            employee.Name = Helper.GetValidEmployeeName();
 
             Console.Write(Constant.PhoneNumber);
             employee.PhoneNumber = Helper.GetValidLong();
@@ -82,24 +82,24 @@ namespace BankSimulator
             Console.WriteLine(Constant.BankDetail);
 
             Console.Write(Constant.Name);
-            bank.Name = Helper.GetValidName();
+            bank.Name = Helper.GetValidBankName();
 
             Console.Write(Constant.PhoneNumber);
             bank.PhoneNumber = Helper.GetValidLong();
 
-            Console.Write("RTGS for same Bank : ");
+            Console.Write(Constant.RTGSRateForSame);
             bank.RTGSSame = Helper.GetValidPercentage();
 
-            Console.Write("RTGS for other Bank : ");
+            Console.Write(Constant.RTGSRateForOther);
             bank.RTGSOther = Helper.GetValidPercentage();
 
-            Console.Write("ITGS for same Bank  : ");
+            Console.Write(Constant.ITGSRateForSame);
             bank.ITGSSame = Helper.GetValidPercentage();
 
-            Console.Write("ITGS for Other Bank : ");
+            Console.Write(Constant.ITGSRateForOther);
             bank.ITGSOther = Helper.GetValidPercentage();
 
-            Console.Write("Default Currency  : ");
+            Console.Write(Constant.DefaultCurrency);
             bank.Currency = Helper.GetValidString();
 
             return bank;
