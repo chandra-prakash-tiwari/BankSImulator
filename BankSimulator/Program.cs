@@ -175,8 +175,12 @@ namespace BankSimulator
                         Console.WriteLine(Constant.UserNotFound);
                     else
                     {
-                        bankService.RemoveAccount(accountId);
-                        Console.WriteLine(Constant.RemoveAccount);
+                        Console.Write(Constant.DeleteConfirmation);
+                        if (UserInput.Confirmation() == ConfirmationOption.Yes)
+                        {
+                            bankService.RemoveAccount(accountId);
+                            Console.WriteLine(Constant.RemoveAccount);
+                        }
                     }
 
                     Console.ReadKey();
@@ -376,8 +380,12 @@ namespace BankSimulator
                         Console.WriteLine(Constant.UserNotFound);
                     else
                     {
-                        bankService.RemoveAccount(accountId);
-                        Console.WriteLine(Constant.RemoveAccount);
+                        Console.Write(Constant.DeleteConfirmation);
+                        if (UserInput.Confirmation() == ConfirmationOption.Yes)
+                        {
+                            bankService.RemoveAccount(accountId);
+                            Console.WriteLine(Constant.RemoveAccount);
+                        }
                     }
 
                     Console.ReadKey();
