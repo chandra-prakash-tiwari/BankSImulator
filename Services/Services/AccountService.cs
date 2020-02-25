@@ -88,6 +88,7 @@ namespace BankSimulator.Services.Services
             {
                 Id = "TXN" + this.CurrentBank.Id + accountNumber + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year,
                 SrcBankId = this.CurrentBank.Id,
+                Status=TransactionStatus.Success,
                 Date = DateTime.Now,
                 Amount = amount,
                 Mode = type,
@@ -104,6 +105,7 @@ namespace BankSimulator.Services.Services
                 DestBankId=descBankId,
                 SrcAccountNumber = srcAccountNumber,
                 DescAccountNumber= descAccountnumber,
+                Status = TransactionStatus.Success,
                 Date = DateTime.Now,
                 Amount = amount,
                 Mode = type

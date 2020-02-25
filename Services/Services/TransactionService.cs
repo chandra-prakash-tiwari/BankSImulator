@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Services.Services
 {
-    public class TransactionService: ITransactionService
+    public class TransactionService : ITransactionService
     {
         public Bank CurrentBank { get; set; }
 
@@ -35,19 +35,19 @@ namespace Services.Services
                     Account srcAccount = this.CurrentBank.Accounts.FirstOrDefault(a => a.Id == transaction.SrcAccountNumber);
                     if (srcAccount != null)
                     {
-                        if (transaction.Mode == TransactionType.Deposit)
+                        if (transaction.Mode == TransactionType.Deposit && transaction.Status == TransactionStatus.Success)
                         {
                             srcAccount.FundBalance = srcAccount.FundBalance - transaction.Amount;
-                            srcAccount.Transactions.Remove(transaction);
+                            transaction.Status = TransactionStatus.Failed;
                             return true;
                         }
-                        else if (transaction.Mode == TransactionType.CashWithdraw)
+                        else if (transaction.Mode == TransactionType.CashWithdraw && transaction.Status == TransactionStatus.Success)
                         {
                             srcAccount.FundBalance = srcAccount.FundBalance + transaction.Amount;
-                            srcAccount.Transactions.Remove(transaction);
+                            transaction.Status = TransactionStatus.Failed;
                             return true;
                         }
-                        else if (transaction.Mode == TransactionType.FundTransfer)
+                        else if (transaction.Mode == TransactionType.FundTransfer && transaction.Status == TransactionStatus.Success)
                         {
                             if (transaction.SrcBankId == transaction.DestBankId)
                             {
@@ -56,7 +56,7 @@ namespace Services.Services
                                 {
                                     srcAccount.FundBalance = srcAccount.FundBalance + transaction.Amount;
                                     destAccount.FundBalance = destAccount.FundBalance - transaction.Amount;
-                                    srcAccount.Transactions.Remove(transaction);
+                                    transaction.Status = TransactionStatus.Failed;
                                     return true;
                                 }
                             }
@@ -67,7 +67,7 @@ namespace Services.Services
                                 {
                                     srcAccount.FundBalance = srcAccount.FundBalance + transaction.Amount;
                                     destAccount.FundBalance = destAccount.FundBalance - transaction.Amount;
-                                    srcAccount.Transactions.Remove(transaction);
+                                    transaction.Status = TransactionStatus.Failed;
                                     return true;
                                 }
                             }
@@ -77,7 +77,7 @@ namespace Services.Services
 
                 return false;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return false;
             }
