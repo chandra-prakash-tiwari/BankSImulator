@@ -77,13 +77,15 @@ namespace Services.Services
 
         public static bool EmployeeUserNameVerification(string name)
         {
-            return Banks?.SelectMany(a => a.Employees).Where(a => a.UserId == name.Substring(0, 3) + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year).ToList().Count == 0 ? true : false;
+            return (Banks?.Where(a => a.Admin?.UserId.Substring(0, 3) == name.Substring(0, 3)).Select(a => a).ToList().Count == 0 &&
+                Banks?.SelectMany(a => a.Employees).Where(a => a.UserId.Substring(0, 3) == name.Substring(0, 3)).Select(a => a).ToList().Count == 0)
+                ? true : false;
         }
 
 
         public static bool AccountUserNameVerification(string name)
         {
-            return Banks?.SelectMany(a => a.Accounts).Where(a => a.Holder.UserId == name.Substring(0, 3) + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year).ToList().Count == 0 ? true : false;
+            return Banks?.SelectMany(a => a.Accounts).Where(a => a.Holder.UserId.Substring(0,3) == name.Substring(0, 3)).Select(a => a).ToList().Count == 0 ? true : false;
         }
     }
 }

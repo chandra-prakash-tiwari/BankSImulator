@@ -129,12 +129,24 @@ namespace BankSimulator
             if (string.IsNullOrEmpty(UserName))
             {
                 Console.WriteLine(Constant.Invalid);
-                UserName = GetValidAccountName();
+                UserName = GetValidEmployeeName();
             }
             else if (!MasterBankService.EmployeeUserNameVerification(UserName))
             {
                 Console.WriteLine(Constant.UserNameNotAvailable);
                 UserName = GetValidEmployeeName();
+            }
+
+            return UserName;
+        }
+
+        public static string GetValidName()
+        {
+            string UserName = Console.ReadLine();
+            if (string.IsNullOrEmpty(UserName))
+            {
+                Console.WriteLine(Constant.Invalid);
+                UserName = GetValidName();
             }
 
             return UserName;

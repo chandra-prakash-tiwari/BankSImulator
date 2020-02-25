@@ -107,5 +107,7 @@ namespace BankSimulator.Models
         public static readonly string ITGSRateForOther = "ITGS for Other Bank : ";
 
         public static readonly string DefaultCurrency = "Default Currency  : ";
+
+        public static readonly string DeleteConfirmation = "Do you want to remove this if yes then press  ";
     }
 }

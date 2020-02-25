@@ -12,7 +12,7 @@ namespace BankSimulator
             Console.WriteLine(Constant.AdminDetail);
 
             Console.Write(Constant.Name);
-            admin.Name = Helper.GetValidEmployeeName();
+            admin.Name = Helper.GetValidName();
 
             Console.Write(Constant.PhoneNumber);
             admin.PhoneNumber = Helper.GetValidLong();
@@ -124,6 +124,25 @@ namespace BankSimulator
             login.Password = Helper.GetValidString();
 
             return login;
+        }
+
+        public static ConfirmationOption Confirmation()
+        {
+            ConfirmationOption confirm = (ConfirmationOption)Helper.GetValidInteger();
+            switch (confirm)
+            {
+                case ConfirmationOption.Yes:
+                    return ConfirmationOption.Yes;
+
+                case ConfirmationOption.No:
+                    return ConfirmationOption.No;
+
+                default:
+                    Console.WriteLine(Constant.Invalid);
+                    confirm = Confirmation();
+                    return confirm;
+
+            }
         }
     }
 }

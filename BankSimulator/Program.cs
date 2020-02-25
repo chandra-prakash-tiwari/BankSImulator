@@ -122,9 +122,13 @@ namespace BankSimulator
                         Console.WriteLine(Constant.UserNotFound);
                     else
                     {
-                        bankService.RemoveEmployee(employeeId);
-                        Console.WriteLine(Constant.RemoveEmployee);
-                        Console.ReadKey();
+                        Console.Write(Constant.DeleteConfirmation);
+                        if (UserInput.Confirmation() == ConfirmationOption.Yes)
+                        {
+                            bankService.RemoveEmployee(employeeId);
+                            Console.WriteLine(Constant.RemoveEmployee);
+                            Console.ReadKey();
+                        }
                     }
 
                     Console.ReadKey();

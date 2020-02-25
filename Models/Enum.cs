@@ -82,4 +82,10 @@ namespace BankSimulator.Models
         PhoneNumber,
         Password
     };
+
+    public enum ConfirmationOption
+    {
+        Yes=1,
+        No
+    }
 }
